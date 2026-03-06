@@ -3,6 +3,6 @@
     public class Shipping
     {
         public long Id { get; set; }
-        public String Address { get; set; }
+        public Address Address { get; set; }
     }
 }
