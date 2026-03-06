@@ -7,7 +7,7 @@ namespace LogisticsDeliveryManager.Domain.Entities
         public long Id { get; set; }
         public Customer Customer { get; set; }
         public Shipping Shipping { get; set; }
-        public ICollection<Cargo> Cargo { get; set; }
+        public List<Cargo> Cargo { get; set; }
         public OrderStatus Status { get; set; }
     }
 }
