@@ -2,7 +2,7 @@
 
 namespace LogisticsDeliveryManager.Domain.Entities
 {
-    public class Driver
+    public class Driver 
     {
         public long Id { get; set; }
         public String Name { get; set; }
