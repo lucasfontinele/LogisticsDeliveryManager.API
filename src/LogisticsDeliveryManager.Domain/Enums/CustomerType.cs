@@ -1,8 +1,7 @@
-﻿namespace LogisticsDeliveryManager.Domain.Enums
+namespace LogisticsDeliveryManager.Domain.Enums;
+
+public enum CustomerType
 {
-    public enum CustomerType
-    {
-        Basic,
-        Premium,
-    }
+    Basic,
+    Premium
 }

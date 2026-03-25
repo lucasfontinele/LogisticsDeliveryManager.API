@@ -1,11 +1,11 @@
 <Solution>
   <Folder Name="/src/">
-    <Project Path="../LogisticsDeliveryManager.Infrastructure/LogisticsDeliveryManager.Infrastructure.csproj" />
     <Project Path="src/LogisticsDeliveryManager.API/LogisticsDeliveryManager.API.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Application/LogisticsDeliveryManager.Application.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Communication/LogisticsDeliveryManager.Communication.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Domain/LogisticsDeliveryManager.Domain.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Exception/LogisticsDeliveryManager.Exception.csproj" />
+    <Project Path="src/LogisticsDeliveryManager.Infrastructure/LogisticsDeliveryManager.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/" />
 </Solution>

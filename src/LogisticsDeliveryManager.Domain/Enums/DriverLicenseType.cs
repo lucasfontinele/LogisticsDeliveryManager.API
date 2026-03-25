@@ -1,11 +1,10 @@
-﻿namespace LogisticsDeliveryManager.Domain.Enums
+namespace LogisticsDeliveryManager.Domain.Enums;
+
+public enum DriverLicenseType
 {
-    public enum DriverLicenseType
-    {
-        A,
-        B,
-        C,
-        D,
-        E
-    }
+    A,
+    B,
+    C,
+    D,
+    E,
 }
