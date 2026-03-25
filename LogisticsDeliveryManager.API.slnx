@@ -5,7 +5,7 @@
     <Project Path="src/LogisticsDeliveryManager.Communication/LogisticsDeliveryManager.Communication.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Domain/LogisticsDeliveryManager.Domain.csproj" />
     <Project Path="src/LogisticsDeliveryManager.Exception/LogisticsDeliveryManager.Exception.csproj" />
-    <Project Path="src/LogisticsDeliveryManager.Infrastructure/LogisticsDeliveryManager.Infrastructure.csproj" />
+    <Project Path="src/LogisticsDeliveryManager.Infrastructure/LogisticsDeliveryManager.Infrastructure.csproj" Id="6a515bb7-3884-4f5f-99a2-9b4476fb0e35" />
   </Folder>
   <Folder Name="/tests/" />
 </Solution>
