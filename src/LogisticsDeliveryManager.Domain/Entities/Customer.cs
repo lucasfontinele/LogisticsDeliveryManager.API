@@ -1,0 +1,10 @@
+using LogisticsDeliveryManager.Domain.Enums;
+using LogisticsDeliveryManager.Domain.ValueObjects;
+
+namespace LogisticsDeliveryManager.Domain.Entities;
+
+public class Customer : Person
+{
+    public IEnumerable<CustomerType> CustomerType { get; set; }
+    public List<Address> Addresses { get; set; }
+}
