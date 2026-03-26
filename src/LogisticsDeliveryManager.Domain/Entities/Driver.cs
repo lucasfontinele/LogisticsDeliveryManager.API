@@ -4,6 +4,7 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 
 public class Driver
 {
+    public long Id { get; set; }
     public IEnumerable<DriverLicenseType> LicenseTypes { get; set; }
     public Employee Employee { get; set; }
 }
