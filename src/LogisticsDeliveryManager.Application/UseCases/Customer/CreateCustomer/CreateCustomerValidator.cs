@@ -13,7 +13,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
             RuleFor(x => x.Document)
                 .NotEmpty()
                 .WithMessage("Document is required.");
-            RuleFor(x => x.CustomerType).NotEmpty().WithMessage("CustomerType is required");
+            RuleFor(x => x.CustomerType).IsInEnum().WithMessage("CustomerType is required");
             RuleFor(x => x.Addresses).NotEmpty().WithMessage("Addresses is required");
             RuleFor(x => x.Email).EmailAddress().NotEmpty().WithMessage("E-mail is required");
             RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Phone number is required");

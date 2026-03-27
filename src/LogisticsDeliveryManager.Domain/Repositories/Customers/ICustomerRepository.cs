@@ -4,5 +4,6 @@ namespace LogisticsDeliveryManager.Domain.Repositories.Customers;
 
 public interface ICustomerRepository
 {
-    void Add(Customer customer);
+    Task Add(Customer customer);
+    Task<bool> ExistActiveCustomerWithEmail(string email);
 }
