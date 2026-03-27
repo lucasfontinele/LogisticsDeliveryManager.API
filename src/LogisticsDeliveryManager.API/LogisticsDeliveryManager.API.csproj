@@ -12,10 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LogisticsDeliveryManager.Infrastructure\LogisticsDeliveryManager.Infrastructure.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Application\LogisticsDeliveryManager.Application.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Communication\LogisticsDeliveryManager.Communication.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Exception\LogisticsDeliveryManager.Exception.csproj" />
+    <ProjectReference Include="..\LogisticsDeliveryManager.Infrastructure\LogisticsDeliveryManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
