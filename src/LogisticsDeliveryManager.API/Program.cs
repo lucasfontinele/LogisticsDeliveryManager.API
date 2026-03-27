@@ -1,20 +1,41 @@
-var builder = WebApplication.CreateBuilder(args);
+using LogisticsDeliveryManager.Api.Filters;
+using LogisticsDeliveryManager.Application;
+using LogisticsDeliveryManager.Infrastructure;
+using Microsoft.OpenApi.Models;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
 });
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Logistics Delivery Manager API",
+        Version = "v1",
+        Description = "Documentacao da API de gerenciamento logistico.",
+    });
+});
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Logistics Delivery Manager API v1");
+        options.RoutePrefix = "swagger";
+        options.DocumentTitle = "Logistics Delivery Manager API Docs";
+    });
 }
 
 app.UseHttpsRedirection();

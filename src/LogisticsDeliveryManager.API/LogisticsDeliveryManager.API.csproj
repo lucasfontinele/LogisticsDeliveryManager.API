@@ -7,14 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\LogisticsDeliveryManager.Infrastructure\LogisticsDeliveryManager.Infrastructure.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Application\LogisticsDeliveryManager.Application.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Communication\LogisticsDeliveryManager.Communication.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Exception\LogisticsDeliveryManager.Exception.csproj" />
+    <ProjectReference Include="..\LogisticsDeliveryManager.Infrastructure\LogisticsDeliveryManager.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
