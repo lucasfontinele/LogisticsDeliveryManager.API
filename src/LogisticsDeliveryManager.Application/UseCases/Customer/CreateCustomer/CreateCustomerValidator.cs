@@ -1,0 +1,22 @@
+﻿using FluentValidation;
+using LogisticsDeliveryManager.Communication.Requests;
+
+namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
+{
+    public class CreateCustomerValidator : AbstractValidator<CreateCustomerRequestDto>
+    {
+        public CreateCustomerValidator()
+        {
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .WithMessage("Name is required.");
+            RuleFor(x => x.Document)
+                .NotEmpty()
+                .WithMessage("Document is required.");
+            RuleFor(x => x.CustomerType).NotEmpty().WithMessage("CustomerType is required");
+            RuleFor(x => x.Addresses).NotEmpty().WithMessage("Addresses is required");
+            RuleFor(x => x.Email).EmailAddress().NotEmpty().WithMessage("E-mail is required");
+            RuleFor(x => x.PhoneNumber).NotEmpty().WithMessage("Phone number is required");
+        }
+    }
+}
