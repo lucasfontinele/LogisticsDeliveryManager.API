@@ -1,4 +1,5 @@
 using LogisticsDeliveryManager.Domain.ValueObjects;
+using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities.Base;
 
