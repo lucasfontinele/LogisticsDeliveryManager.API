@@ -18,7 +18,7 @@ public record PostalCode
 
     private static bool Validate(string postalCode)
     {
-        var regex = new Regex(@"^\d{5}-?\d{3}$");
+        var regex = new Regex(@"^\d{5}-\d{3}$");
         return regex.IsMatch(postalCode);
     }
 
