@@ -33,13 +33,12 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
 
             await _customerDomainService.ValidateUniqueEmail(request.Email);
 
-            var addresses = request.Addresses.Select(a => new Address
-            {
-                Street = a.Street,
-                City = a.City,
-                State = a.State,
-                PostalCode = a.PostalCode
-            }).ToList();
+            var addresses = request.Addresses.Select(a => new Address(
+                a.Street,
+                a.City,
+                a.State,
+                a.PostalCode
+            )).ToList();
 
             var customer = new Domain.Entities.Customer(
                 request.Name,
