@@ -6,6 +6,7 @@
     }
   },
   "Supabase": {
-    "ConnectionUrl": ""
-  }
+    "ConnectionUrl": "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?sslmode=require"
+  },
+  "AllowedHosts": "*"
 }
