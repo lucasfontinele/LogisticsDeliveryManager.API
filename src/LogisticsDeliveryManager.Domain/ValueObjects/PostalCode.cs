@@ -11,12 +11,15 @@ public record PostalCode
     {
         if (string.IsNullOrWhiteSpace(code))
             throw new ErrorOnValidationException(new List<string> { "Postal code cannot be empty." });
+        if (!Validate(code))
+            throw new ErrorOnValidationException(new List<string> { "Postal code format is invalid." });
         Code = code;
     }
 
     private static bool Validate(string postalCode)
     {
-        return Regex.IsMatch(postalCode, @"^\d{5}-?\d{3}$");
+        var regex = new Regex(@"^\d{5}-?\d{3}$")
+        return regex.IsMatch(postalCode);
     }
 
     public override string ToString() => Code;
