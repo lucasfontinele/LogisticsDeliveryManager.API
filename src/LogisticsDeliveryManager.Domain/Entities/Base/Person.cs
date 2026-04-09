@@ -1,6 +1,6 @@
-using LogisticsDeliveryManager.Domain.Entities;
+using LogisticsDeliveryManager.Domain.Entities.Base;
 
-namespace LogisticsDeliveryManager.Domain.ValueObjects;
+namespace LogisticsDeliveryManager.Domain.Entities.Base;
 
 public abstract class Person : EntityBase
 {

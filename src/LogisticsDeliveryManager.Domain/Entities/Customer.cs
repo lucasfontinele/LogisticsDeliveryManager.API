@@ -1,5 +1,5 @@
 using LogisticsDeliveryManager.Domain.Enums;
-using LogisticsDeliveryManager.Domain.ValueObjects;
+using LogisticsDeliveryManager.Domain.Entities.Base;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 

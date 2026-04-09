@@ -10,3 +10,4 @@ public class ShippingStatuses
     public OrderStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
 }
+    
