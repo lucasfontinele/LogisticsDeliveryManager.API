@@ -1,4 +1,3 @@
-using FluentValidation.Results;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Entities;
@@ -6,7 +5,6 @@ using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Customers;
 using LogisticsDeliveryManager.Domain.Services.Customers;
-using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
