@@ -25,13 +25,21 @@ public class Address
 
     static void Validate(string street, string city, string state, PostalCode postalCode)
     {
+        var errors = new List<string>();
+
         if (string.IsNullOrEmpty(street))
-            throw new ErrorOnValidationException(new List<string> { "Street is required." });
+            errors.Add("Street is required.");
+            
         if (string.IsNullOrEmpty(city))
-            throw new ErrorOnValidationException(new List<string> { "City is required." });
+            errors.Add("City is required.");
+
         if (string.IsNullOrEmpty(state))
-            throw new ErrorOnValidationException(new List<string> { "State is required." });
+            errors.Add("State is required.");
+
         if (postalCode == null)
-            throw new ErrorOnValidationException(new List<string> { "Postal code is required." });
+            errors.Add("Postal code is required.");
+
+        if (errors.Any())
+            throw new ErrorOnValidationException(errors);
     }
 }
