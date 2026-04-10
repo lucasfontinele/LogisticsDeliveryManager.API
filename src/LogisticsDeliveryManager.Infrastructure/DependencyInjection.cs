@@ -13,7 +13,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionUrl = configuration[SupabaseSettings.ConnectionUrlKey];
-        var connectionString = SupabaseConnectionStringFactory.Build("postgresql://postgres:WeB5iqH7ObOQqC41@db.gqnonkdrzzpjgshgakdy.supabase.co:5432/postgres?sslmode=require");
+        var connectionString = SupabaseConnectionStringFactory.Build(connectionUrl);
 
         services.AddDbContext<LogisticsDeliveryManagerDbContext>(options =>
         {

@@ -14,6 +14,19 @@ public class Employee : Person
     public Employee(string name, string document, string phoneNumber, Email email, RoleType roleType)
         : base(name, document, phoneNumber, email)
     {
+        Validate(roleType);
+        
         RoleType = roleType;
+    }
+
+    private static void Validate(RoleType roleType)
+    {
+        var errors = new List<string>();
+
+        if (!Enum.IsDefined(typeof(RoleType), roleType))
+            errors.Add("Invalid role type.");
+
+        if (errors.Any())
+            throw new ErrorOnValidationException(errors);
     }
 }
