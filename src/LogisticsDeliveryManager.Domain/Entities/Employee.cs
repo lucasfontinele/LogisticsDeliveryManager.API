@@ -1,7 +1,6 @@
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Entities.Base;
 using LogisticsDeliveryManager.Domain.ValueObjects;
-using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
