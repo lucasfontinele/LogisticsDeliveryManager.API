@@ -12,9 +12,9 @@ public class CustomerController : ControllerBase
 {
     [HttpPost]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(CreateCustomerResponseDto), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ErrorResponseDto), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> CreateCustomer([FromServices] ICreateCustomerUseCase useCase, [FromBody] CreateCustomerRequestDto request)
+    [ProducesResponseType(typeof(CreateCustomerResponseJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> CreateCustomer([FromServices] ICreateCustomerUseCase useCase, [FromBody] CreateCustomerRequestJson request)
     {
         var response = await useCase.Execute(request);
 

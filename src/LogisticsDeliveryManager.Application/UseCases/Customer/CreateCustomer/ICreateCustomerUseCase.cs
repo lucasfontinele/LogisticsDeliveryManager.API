@@ -5,6 +5,6 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
 {
     public interface ICreateCustomerUseCase
     {
-        public Task<CreateCustomerResponseDto> Execute(CreateCustomerRequestDto request);
+        public Task<CreateCustomerResponseJson> Execute(CreateCustomerRequestJson request);
     }
 }
