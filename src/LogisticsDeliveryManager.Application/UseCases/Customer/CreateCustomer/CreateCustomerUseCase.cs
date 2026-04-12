@@ -25,7 +25,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CreateCustomerResponseDto> Execute(CreateCustomerRequestDto request)
+        public async Task<CreateCustomerResponseJson> Execute(CreateCustomerRequestJson request)
         {
             Validate(request);
 
@@ -51,7 +51,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
 
             await _unitOfWork.Commit();
 
-            return new CreateCustomerResponseDto
+            return new CreateCustomerResponseJson
             {
                 Id = customer.Id,
                 Addresses = request.Addresses,
@@ -63,7 +63,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
             };
         }
 
-        private void Validate(CreateCustomerRequestDto request)
+        private void Validate(CreateCustomerRequestJson request)
         {
             var result = new CreateCustomerValidator().Validate(request);
 
