@@ -1,6 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Enums
 {
-    public enum DriverLicenseTypeDto
+    public enum DriverLicenseTypeJson
     {
         A,
         B,

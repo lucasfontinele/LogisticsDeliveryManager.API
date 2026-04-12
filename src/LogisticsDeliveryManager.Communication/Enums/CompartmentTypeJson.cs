@@ -1,6 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Enums
 {
-    public enum CompartmentTypeDto
+    public enum CompartmentTypeJson
     {
         BoxBody,
         CurtainSide,

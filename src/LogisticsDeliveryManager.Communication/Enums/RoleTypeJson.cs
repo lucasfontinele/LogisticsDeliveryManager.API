@@ -1,6 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Enums
 {
-    public enum RoleTypeDto
+    public enum RoleTypeJson
     {
         Manager,
         Driver,

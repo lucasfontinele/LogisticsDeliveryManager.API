@@ -1,6 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Enums
 {
-    public enum CargoTypeDto
+    public enum CargoTypeJson
     {
         General,
         Food,

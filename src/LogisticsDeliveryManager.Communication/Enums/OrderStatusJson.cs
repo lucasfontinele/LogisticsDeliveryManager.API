@@ -1,6 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Enums
 {
-    public enum OrderStatusDto
+    public enum OrderStatusJson
     {
         Pending,
         InProgress,
