@@ -1,6 +1,6 @@
-﻿namespace LogisticsDeliveryManager.Communication.Requests
+namespace LogisticsDeliveryManager.Communication.Requests
 {
-    public class AddressRequestDto
+    public class AddressRequestJson
     {
         public string Street { get; set; }
         public string City { get; set; }

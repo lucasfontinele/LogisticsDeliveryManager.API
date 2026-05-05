@@ -22,7 +22,7 @@ public class ExceptionFilter : IExceptionFilter
     private void HandleProjectException(ExceptionContext context)
     {
         var logisticsDeliveryManagerException = (LogisticsDeliveryManagerException)context.Exception;
-        var errorResponse = new ErrorResponseDto(logisticsDeliveryManagerException.GetErrors());
+        var errorResponse = new ErrorResponseJson(logisticsDeliveryManagerException.GetErrors());
 
         context.HttpContext.Response.StatusCode = logisticsDeliveryManagerException.StatusCode;
         context.Result = new ObjectResult(errorResponse);
@@ -30,7 +30,7 @@ public class ExceptionFilter : IExceptionFilter
 
     private void ThrowUnkowError(ExceptionContext context)
     {
-        var errorResponse = new ErrorResponseDto("Unknown error");
+        var errorResponse = new ErrorResponseJson("Unknown error");
 
         context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         context.Result = new ObjectResult(errorResponse);

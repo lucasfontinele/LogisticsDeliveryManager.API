@@ -3,7 +3,7 @@ using LogisticsDeliveryManager.Communication.Requests;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
 {
-    public class CreateCustomerValidator : AbstractValidator<CreateCustomerRequestDto>
+    public class CreateCustomerValidator : AbstractValidator<CreateCustomerRequestJson>
     {
         public CreateCustomerValidator()
         {
