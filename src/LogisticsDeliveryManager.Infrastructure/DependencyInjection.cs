@@ -1,5 +1,6 @@
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Customers;
+using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Infrastructure.Configuration;
 using LogisticsDeliveryManager.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ICustomerRepository, DataAccess.Repositories.CustomerRepository>();
+        services.AddScoped<IVehicleRepository, DataAccess.Repositories.VehicleRepository>();
 
         return services;
     }
