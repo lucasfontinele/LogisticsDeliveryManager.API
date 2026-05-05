@@ -5,9 +5,9 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 public class BatchOrder
 {
     public long Id { get; set; }
-    public Batch Batch { get; set; }
-    public Order Order { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public Batch Batch { get; private set; }
+    public Order Order { get; private set; }
+    public DateTime CreatedAt { get; private set; }
 
     private BatchOrder() { }
 
