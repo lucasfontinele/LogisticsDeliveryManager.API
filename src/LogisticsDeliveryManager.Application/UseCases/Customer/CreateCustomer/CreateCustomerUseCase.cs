@@ -63,7 +63,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customer.CreateCustomer
             };
         }
 
-        private void Validate(CreateCustomerRequestJson request)
+        private static void Validate(CreateCustomerRequestJson request)
         {
             var result = new CreateCustomerValidator().Validate(request);
 
