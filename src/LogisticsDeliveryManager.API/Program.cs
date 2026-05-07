@@ -2,6 +2,7 @@ using LogisticsDeliveryManager.Api.Filters;
 using LogisticsDeliveryManager.Application;
 using LogisticsDeliveryManager.Infrastructure;
 using Microsoft.OpenApi.Models;
+using LogisticsDeliveryManager.API.Runners;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,12 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "Logistics Delivery Manager API",
         Version = "v1",
-        Description = "Documentacao da API de gerenciamento logistico.",
+        Description = "Documentacao da API de gerenciamento logistico."
     });
 });
 
 builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilter)));
+builder.Services.AddHostedService<ApplicationStartupLogger>();
 
 var app = builder.Build();
 
