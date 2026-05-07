@@ -11,6 +11,7 @@ public class Driver
 
     public Driver(Employee employee, IEnumerable<DriverLicenseType> licenseTypes)
     {
+        Validate(employee, licenseTypes);
         Employee = employee;
         LicenseTypes = licenseTypes;
     }
