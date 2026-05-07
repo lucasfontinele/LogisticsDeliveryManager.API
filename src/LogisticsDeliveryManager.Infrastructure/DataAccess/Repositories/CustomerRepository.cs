@@ -16,8 +16,6 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
         public async Task Add(Customer customer)
         {
             await dbContext.AddAsync(customer);
-
-            await dbContext.SaveChangesAsync();
         }
 
         public async Task<bool> ExistActiveCustomerWithEmail(string email)
