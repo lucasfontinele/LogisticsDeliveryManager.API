@@ -1,14 +1,15 @@
-using LogisticsDeliveryManager.Application.UseCases.Vehicle.CreateVehicle;
+using LogisticsDeliveryManager.Communication.Enums;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
-using Microsoft.AspNetCore.Http;
+using LogisticsDeliveryManager.Domain.Enums;
+using LogisticsDeliveryManager.Domain.UseCases.Vehicles.CreateVehicle;
+using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsDeliveryManager.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-
 public class VehicleController : ControllerBase
 {
     [HttpPost]
@@ -16,10 +17,30 @@ public class VehicleController : ControllerBase
     [ProducesResponseType(typeof(CreateVehicleResponseJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateVehicle(
-        [FromServices] ICreateVehicleUseCase useCase, 
+        [FromServices] ICreateVehicleUseCase useCase,
         [FromBody] CreateVehicleRequestJson request)
     {
-        var response = await useCase.Execute(request);
+        if (request is null)
+            throw new ErrorOnValidationException(["Request cannot be null."]);
+
+        var command = new CreateVehicleCommand(
+            request.LicensePlate,
+            request.Model,
+            request.WeightCapacity,
+            request.VolumeCapacity,
+            (CompartmentType)request.CompartmentType);
+
+        var vehicle = await useCase.Execute(command);
+
+        var response = new CreateVehicleResponseJson
+        {
+            Id = vehicle.Id,
+            LicensePlate = vehicle.LicensePlate,
+            Model = vehicle.Model,
+            WeightCapacity = vehicle.WeightCapacity,
+            VolumeCapacity = vehicle.VolumeCapacity,
+            CompartmentType = (CompartmentTypeJson)vehicle.CompartmentType
+        };
 
         return Created(string.Empty, response);
     }

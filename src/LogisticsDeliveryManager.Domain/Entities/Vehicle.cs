@@ -14,9 +14,24 @@ public class Vehicle
 
     private Vehicle() { }
 
+    public static Vehicle Register(
+        string licensePlate,
+        string model,
+        double weightCapacity,
+        double volumeCapacity,
+        CompartmentType compartmentType)
+    {
+        return new Vehicle(
+            licensePlate,
+            model,
+            weightCapacity,
+            volumeCapacity,
+            compartmentType);
+    }
+
     public Vehicle(string licensePlate, string model, double weightCapacity, double volumeCapacity, CompartmentType compartmentType)
     {
-        Validate(licensePlate, model, weightCapacity, volumeCapacity);
+        Validate(licensePlate, model, weightCapacity, volumeCapacity, compartmentType);
 
         LicensePlate = licensePlate;
         Model = model;
@@ -25,7 +40,12 @@ public class Vehicle
         CompartmentType = compartmentType;
     }
 
-    private static void Validate(string licensePlate, string model, double weightCapacity, double volumeCapacity)
+    private static void Validate(
+        string licensePlate,
+        string model,
+        double weightCapacity,
+        double volumeCapacity,
+        CompartmentType compartmentType)
     {
         var errors = new List<string>();
 
@@ -40,6 +60,9 @@ public class Vehicle
 
         if (volumeCapacity <= 0)
             errors.Add("Volume capacity must be greater than zero.");
+
+        if (!Enum.IsDefined(typeof(CompartmentType), compartmentType))
+            errors.Add("Invalid compartment type.");
 
         if (errors.Count > 0)
             throw new ErrorOnValidationException(errors);

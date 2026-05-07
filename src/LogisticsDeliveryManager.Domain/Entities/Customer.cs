@@ -15,6 +15,23 @@ public class Customer : Person
 
     private Customer() { }
 
+    public static Customer Register(
+        string name,
+        string document,
+        string phoneNumber,
+        string email,
+        CustomerType customerType,
+        IEnumerable<Address> addresses)
+    {
+        return new Customer(
+            name,
+            document,
+            phoneNumber,
+            new Email(email),
+            customerType,
+            addresses);
+    }
+
     public Customer(
         string name,
         string document,
@@ -50,7 +67,12 @@ public class Customer : Person
         if (addresses is null)
             throw new ErrorOnValidationException(["Addresses cannot be null"]);
 
-        foreach (var address in addresses)
+        var addressesList = addresses.ToList();
+
+        if (addressesList.Count == 0)
+            throw new ErrorOnValidationException(["At least one address is required."]);
+
+        foreach (var address in addressesList)
         {
             AddAddress(address);
         }
