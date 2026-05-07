@@ -24,8 +24,6 @@ public class ApplicationStartupLogger : BackgroundService
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Usamos o ApplicationStarted.Register para garantir que isso rode APÓS o servidor subir
-        // Isso é o equivalente exato ao ApplicationRunner do Spring Boot
         _lifetime.ApplicationStarted.Register(() =>
         {
             try
@@ -35,7 +33,6 @@ public class ApplicationStartupLogger : BackgroundService
 
                 if (isDev)
                 {
-                    // Obtém dinamicamente a URL exata em que o projeto subiu (sem precisar ler config manualmente)
                     var server = _serviceProvider.GetRequiredService<IServer>();
                     var addresses = server.Features.Get<IServerAddressesFeature>()?.Addresses;
                     
