@@ -9,6 +9,8 @@ public class Driver
     public IEnumerable<DriverLicenseType> LicenseTypes { get; set; }
     public Employee Employee { get; set; }
 
+    protected Driver() { }
+
     public Driver(Employee employee, IEnumerable<DriverLicenseType> licenseTypes)
     {
         Validate(employee, licenseTypes);
