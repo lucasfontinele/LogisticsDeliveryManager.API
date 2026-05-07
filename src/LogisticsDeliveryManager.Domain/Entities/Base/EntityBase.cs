@@ -1,4 +1,4 @@
-﻿namespace LogisticsDeliveryManager.Domain.Entities
+﻿﻿namespace LogisticsDeliveryManager.Domain.Entities.Base
 {
     public class EntityBase
     {

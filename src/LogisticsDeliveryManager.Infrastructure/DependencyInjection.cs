@@ -1,5 +1,6 @@
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Customers;
+using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Infrastructure.Configuration;
 using LogisticsDeliveryManager.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionUrl = configuration[SupabaseSettings.ConnectionUrlKey];
-        var connectionString = SupabaseConnectionStringFactory.Build("postgresql://postgres:WeB5iqH7ObOQqC41@db.gqnonkdrzzpjgshgakdy.supabase.co:5432/postgres?sslmode=require");
+        var connectionString = SupabaseConnectionStringFactory.Build(connectionUrl);
 
         services.AddDbContext<LogisticsDeliveryManagerDbContext>(options =>
         {
@@ -22,6 +23,7 @@ public static class DependencyInjection
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ICustomerRepository, DataAccess.Repositories.CustomerRepository>();
+        services.AddScoped<IVehicleRepository, DataAccess.Repositories.VehicleRepository>();
 
         return services;
     }
