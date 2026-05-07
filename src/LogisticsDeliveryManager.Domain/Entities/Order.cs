@@ -10,6 +10,8 @@ public class Order
     public OrderStatus Status { get; set; }
     public bool IsPriority { get; set; }
 
+    protected Order() { }
+
     public Order(Customer customer, OrderStatus status, bool isPriority)
     {
         Validate(customer, status, isPriority);

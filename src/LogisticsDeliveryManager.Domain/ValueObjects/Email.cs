@@ -1,11 +1,16 @@
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using System.Text.RegularExpressions;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace LogisticsDeliveryManager.Domain.ValueObjects;
 
+[ComplexType]
 public record Email
 {
-    public string Address { get; }
+    public string Address { get; init; }
+
+    protected Email() { }
 
     public Email(string address)
     {

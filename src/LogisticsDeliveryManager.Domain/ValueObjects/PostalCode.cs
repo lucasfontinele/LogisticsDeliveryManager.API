@@ -1,11 +1,16 @@
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using System.Text.RegularExpressions;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace LogisticsDeliveryManager.Domain.ValueObjects;
 
+[ComplexType]
 public record PostalCode 
 {
-    public string Code { get; }
+    public string Code { get; init; }
+
+    protected PostalCode() { }
 
     public PostalCode(string code)
     {
