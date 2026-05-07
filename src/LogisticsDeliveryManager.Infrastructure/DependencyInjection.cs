@@ -12,8 +12,7 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionUrl = configuration[SupabaseSettings.ConnectionUrlKey];
-        var connectionString = SupabaseConnectionStringFactory.Build(connectionUrl);
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<LogisticsDeliveryManagerDbContext>(options =>
         {
