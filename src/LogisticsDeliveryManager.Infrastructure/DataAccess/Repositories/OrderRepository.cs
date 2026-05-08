@@ -47,7 +47,7 @@ internal class OrderRepository : IOrderRepository
     {
         return await _dbContext.Orders
             .Include(o => o.DestinationAddress)
-            .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriver != null && o.AssignedVehicle.CurrentDriver.Id == driverId)
+            .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriverId == driverId)
             .ToListAsync();
     }
 

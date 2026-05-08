@@ -35,13 +35,12 @@ public class Order : EntityBase
         Weight = weight;
         Volume = volume;
         IsPriority = isPriority;
-        Status = OrderStatus.Pending; // Initial status
+        Status = OrderStatus.Pending;
     }
 
     public void AssignVehicle(Vehicle vehicle)
     {
         AssignedVehicle = vehicle;
-        Status = OrderStatus.Processing; // Assigned but not embarked yet
     }
 
     public void SetProofOfDelivery(string base64Image)
