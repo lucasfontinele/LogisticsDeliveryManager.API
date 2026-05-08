@@ -1,12 +1,11 @@
 using LogisticsDeliveryManager.Domain.Repositories;
+using LogisticsDeliveryManager.Domain.Repositories.Batches;
 using LogisticsDeliveryManager.Domain.Repositories.Customers;
 using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Domain.Repositories.Drivers;
-using LogisticsDeliveryManager.Domain.Repositories.Drivers;
 using LogisticsDeliveryManager.Domain.Repositories.Employees;
 using LogisticsDeliveryManager.Domain.Repositories.Orders;
-using LogisticsDeliveryManager.Infrastructure.Configuration;
-using LogisticsDeliveryManager.Infrastructure.DataAccess;
+using LogisticsDeliveryManager.Infrastructure.Configuration;using LogisticsDeliveryManager.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +29,7 @@ public static class DependencyInjection
         services.AddScoped<IEmployeeRepository, DataAccess.Repositories.EmployeeRepository>();
         services.AddScoped<IDriverRepository, DataAccess.Repositories.DriverRepository>();
         services.AddScoped<IOrderRepository, DataAccess.Repositories.OrderRepository>();
+        services.AddScoped<IBatchRepository, DataAccess.Repositories.BatchRepository>();
 
         return services;
     }

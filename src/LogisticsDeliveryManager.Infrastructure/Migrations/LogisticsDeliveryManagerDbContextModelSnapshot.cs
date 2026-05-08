@@ -59,7 +59,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Batch", b =>
@@ -79,6 +79,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<long>("DriverId")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
@@ -91,7 +94,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Batches");
+                    b.ToTable("Batches", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.BatchOrder", b =>
@@ -108,6 +111,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<long>("OrderId")
                         .HasColumnType("bigint");
 
@@ -117,7 +123,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("BatchOrders");
+                    b.ToTable("BatchOrders", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Customer", b =>
@@ -160,7 +166,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Driver", b =>
@@ -182,7 +188,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Drivers");
+                    b.ToTable("Drivers", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Employee", b =>
@@ -225,7 +231,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Order", b =>
@@ -283,7 +289,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("DestinationAddressId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Shipping", b =>
@@ -314,7 +320,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Shippings");
+                    b.ToTable("Shippings", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.ShippingStatuses", b =>
@@ -341,7 +347,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("ShippingId");
 
-                    b.ToTable("ShippingStatuses");
+                    b.ToTable("ShippingStatuses", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Vehicle", b =>
@@ -383,7 +389,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles");
+                    b.ToTable("Vehicles", (string)null);
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Address", b =>
