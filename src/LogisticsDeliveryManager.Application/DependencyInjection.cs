@@ -1,6 +1,7 @@
 using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.CreateDriver;
 using LogisticsDeliveryManager.Application.UseCases.Employees.CreateEmployee;
+using LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
 using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,5 +28,6 @@ public static class DependencyInjection
         services.AddScoped<ICreateVehicleUseCase, CreateVehicleUseCase>();
         services.AddScoped<ICreateEmployeeUseCase, CreateEmployeeUseCase>();
         services.AddScoped<ICreateDriverUseCase, CreateDriverUseCase>();
+        services.AddScoped<ICreateOrderUseCase, CreateOrderUseCase>();
     }
 }

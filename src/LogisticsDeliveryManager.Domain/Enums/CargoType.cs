@@ -1,4 +1,4 @@
-using LogisticsDeliveryManager.Domain.Enums;
+namespace LogisticsDeliveryManager.Domain.Enums;
 
 public enum CargoType
 {
@@ -11,5 +11,5 @@ public enum CargoType
     Industrial,
     Documents,
     HighValue,
-    Dangerous,
+    Dangerous
 }

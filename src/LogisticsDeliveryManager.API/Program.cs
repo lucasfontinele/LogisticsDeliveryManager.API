@@ -22,6 +22,7 @@ builder.Services.AddApplication();
 builder.Services.AddScoped<ICustomerDomainService, CustomerDomainService>();
 builder.Services.AddScoped<IVehicleDomainService, VehicleDomainService>();
 builder.Services.AddScoped<LogisticsDeliveryManager.Domain.Services.Employees.IEmployeeDomainService, LogisticsDeliveryManager.Domain.Services.Employees.EmployeeDomainService>();
+builder.Services.AddScoped<LogisticsDeliveryManager.Domain.Services.Orders.IOrderRoutingDomainService, LogisticsDeliveryManager.Domain.Services.Orders.OrderRoutingDomainService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
