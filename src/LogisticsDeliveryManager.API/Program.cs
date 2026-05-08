@@ -1,8 +1,8 @@
 using LogisticsDeliveryManager.Api.Filters;
 using LogisticsDeliveryManager.Domain.Services.Customers;
 using LogisticsDeliveryManager.Domain.Services.Vehicles;
-using LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
-using LogisticsDeliveryManager.Domain.UseCases.Vehicles.CreateVehicle;
+using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
+using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 using LogisticsDeliveryManager.Infrastructure;
 using Microsoft.OpenApi.Models;
 using LogisticsDeliveryManager.API.Runners;

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LogisticsDeliveryManager.Application\LogisticsDeliveryManager.Application.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Communication\LogisticsDeliveryManager.Communication.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Domain\LogisticsDeliveryManager.Domain.csproj" />
     <ProjectReference Include="..\LogisticsDeliveryManager.Exception\LogisticsDeliveryManager.Exception.csproj" />

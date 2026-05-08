@@ -1,6 +1,6 @@
 using LogisticsDeliveryManager.Domain.Enums;
 
-namespace LogisticsDeliveryManager.Domain.UseCases.Vehicles.CreateVehicle;
+namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 
 public sealed record CreateVehicleCommand(
     string LicensePlate,

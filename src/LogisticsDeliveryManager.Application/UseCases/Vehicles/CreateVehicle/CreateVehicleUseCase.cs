@@ -4,7 +4,7 @@ using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Domain.Services.Vehicles;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
-namespace LogisticsDeliveryManager.Domain.UseCases.Vehicles.CreateVehicle;
+namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 
 public sealed class CreateVehicleUseCase : ICreateVehicleUseCase
 {

@@ -4,7 +4,7 @@ using LogisticsDeliveryManager.Domain.Repositories.Customers;
 using LogisticsDeliveryManager.Domain.Services.Customers;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
-namespace LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
+namespace LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 
 public sealed class CreateCustomerUseCase : ICreateCustomerUseCase
 {

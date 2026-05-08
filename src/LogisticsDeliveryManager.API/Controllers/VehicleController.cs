@@ -2,7 +2,7 @@ using LogisticsDeliveryManager.Communication.Enums;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
-using LogisticsDeliveryManager.Domain.UseCases.Vehicles.CreateVehicle;
+using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
 

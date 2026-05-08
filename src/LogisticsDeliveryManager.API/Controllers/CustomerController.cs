@@ -2,7 +2,7 @@ using LogisticsDeliveryManager.Communication.Enums;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
-using LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
+using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

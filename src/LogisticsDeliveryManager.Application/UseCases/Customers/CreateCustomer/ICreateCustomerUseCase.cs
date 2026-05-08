@@ -1,6 +1,6 @@
 using LogisticsDeliveryManager.Domain.Entities;
 
-namespace LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
+namespace LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 
 public interface ICreateCustomerUseCase
 {
