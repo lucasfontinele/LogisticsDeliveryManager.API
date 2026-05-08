@@ -1,5 +1,5 @@
-using LogisticsDeliveryManager.Domain.Entities;
-using LogisticsDeliveryManager.Domain.Repositories.Drivers;
+using LogisticsDeliveryManager.Domain.Fleet.Drivers;
+using LogisticsDeliveryManager.Domain.Fleet;
 using Microsoft.EntityFrameworkCore;
 
 namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories;

@@ -6,7 +6,9 @@ using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.CreateDriver;
 using LogisticsDeliveryManager.Application.UseCases.Employees.CreateEmployee;
 using LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
+using LogisticsDeliveryManager.Application.UseCases.Fleet.AssignVehicleToRoute;
 using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
+using LogisticsDeliveryManager.Domain.Fleet;
 using LogisticsDeliveryManager.Application.UseCases.Orders.GetAllOrders;
 using LogisticsDeliveryManager.Application.UseCases.Orders.GetOrderById;
 using LogisticsDeliveryManager.Application.UseCases.Customers.GetCustomerById;
@@ -39,6 +41,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
         services.AddScoped<ICreateVehicleUseCase, CreateVehicleUseCase>();
+        services.AddScoped<AssignVehicleToRouteHandler>();
         services.AddScoped<ICreateEmployeeUseCase, CreateEmployeeUseCase>();
         services.AddScoped<ICreateDriverUseCase, CreateDriverUseCase>();
         services.AddScoped<ICreateOrderUseCase, CreateOrderUseCase>();
@@ -64,5 +67,6 @@ public static class DependencyInjection
         services.AddScoped<IGetAllBatchesUseCase, GetAllBatchesUseCase>();
         services.AddScoped<IGetBatchByIdUseCase, GetBatchByIdUseCase>();
         services.AddScoped<IOrderRoutingDomainService, OrderRoutingDomainService>();
+        services.AddScoped<FleetAssignmentService>();
     }
 }
