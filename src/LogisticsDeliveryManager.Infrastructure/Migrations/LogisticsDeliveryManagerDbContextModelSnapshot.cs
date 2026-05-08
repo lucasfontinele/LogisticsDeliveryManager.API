@@ -294,11 +294,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Shipping", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -309,6 +307,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.Property<DateOnly>("EstimatedDeliveryDate")
                         .HasColumnType("date");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uuid");
@@ -325,11 +326,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.ShippingStatuses", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -337,8 +336,11 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<DateOnly>("EstimatedDeliveryDate")
                         .HasColumnType("date");
 
-                    b.Property<long>("ShippingId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ShippingId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");

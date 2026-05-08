@@ -7,7 +7,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Batch.AddOrderToBatch;
 
 public interface IAddOrderToBatchUseCase
 {
-    Task Execute(long batchId, long orderId);
+    Task Execute(Guid batchId, Guid orderId);
 }
 
 public sealed class AddOrderToBatchUseCase : IAddOrderToBatchUseCase
@@ -26,7 +26,7 @@ public sealed class AddOrderToBatchUseCase : IAddOrderToBatchUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Execute(long batchId, long orderId)
+    public async Task Execute(Guid batchId, Guid orderId)
     {
         var batch = await _batchRepository.GetById(batchId);
         if (batch is null)

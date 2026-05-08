@@ -33,7 +33,7 @@ public class Batch : EntityBase
             throw new ErrorOnValidationException(["Order cannot be null."]);
 
         if (_batchOrders.Any(bo =>
-                (order.Id != 0 && bo.Order.Id == order.Id) ||
+                (order.Id != Guid.Empty && bo.Order.Id == order.Id) ||
                 ReferenceEquals(bo.Order, order)))
         {
             throw new ErrorOnValidationException(["Order is already in this batch."]);

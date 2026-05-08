@@ -37,8 +37,8 @@ public class BatchController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
     public async Task<IActionResult> AddOrderToBatch(
         [FromServices] IAddOrderToBatchUseCase useCase,
-        [FromRoute] long batchId,
-        [FromRoute] long orderId)
+        [FromRoute] Guid batchId,
+        [FromRoute] Guid orderId)
     {
         await useCase.Execute(batchId, orderId);
         return NoContent();
