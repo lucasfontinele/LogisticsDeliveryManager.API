@@ -38,7 +38,6 @@ public sealed class AddOrderToBatchUseCase : IAddOrderToBatchUseCase
 
         batch.AddOrder(order);
 
-        _batchRepository.Update(batch);
         await _unitOfWork.Commit();
     }
 }

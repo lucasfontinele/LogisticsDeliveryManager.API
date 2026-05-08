@@ -20,6 +20,16 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogisticsDeliveryManagerDbContext).Assembly);
+        
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            if (typeof(LogisticsDeliveryManager.Domain.Entities.Base.EntityBase).IsAssignableFrom(entity.ClrType))
+            {
+                modelBuilder.Entity(entity.ClrType)
+                    .Property("Id")
+                    .ValueGeneratedOnAdd();
+            }
+        }
 
         // Global Query Filters for Soft Delete
         modelBuilder.Entity<Customer>().HasQueryFilter(e => e.IsActive);

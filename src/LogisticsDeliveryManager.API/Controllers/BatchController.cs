@@ -1,6 +1,8 @@
 using AutoMapper;
 using LogisticsDeliveryManager.Application.UseCases.Batch.AddOrderToBatch;
 using LogisticsDeliveryManager.Application.UseCases.Batch.CreateBatch;
+using LogisticsDeliveryManager.Application.UseCases.Batch.GetAllBatches;
+using LogisticsDeliveryManager.Application.UseCases.Batch.GetBatchById;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
@@ -42,5 +44,31 @@ public class BatchController : ControllerBase
     {
         await useCase.Execute(batchId, orderId);
         return NoContent();
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<BatchResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllBatches(
+        [FromServices] IGetAllBatchesUseCase useCase,
+        [FromServices] IMapper mapper)
+    {
+        var batches = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<BatchResponseJson>>(batches);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(BatchResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetBatchById(
+        [FromServices] IGetBatchByIdUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromRoute] Guid id)
+    {
+        var batch = await useCase.Execute(id);
+        if (batch is null) return NotFound();
+
+        var response = mapper.Map<BatchResponseJson>(batch);
+        return Ok(response);
     }
 }

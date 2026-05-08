@@ -23,5 +23,8 @@ public class BatchProfile : Profile
             .ForMember(dest => dest.DriverId, opt => opt.MapFrom(src => src.Driver.Id))
             .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Vehicle.Id))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (Communication.Enums.CargoTypeJson)src.Type));
+
+        CreateMap<DomainBatch, BatchResponseJson>()
+            .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.BatchOrders.Select(bo => bo.Order)));
     }
 }
