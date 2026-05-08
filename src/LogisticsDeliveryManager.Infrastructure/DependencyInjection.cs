@@ -38,10 +38,6 @@ public static class DependencyInjection
     {
         using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<LogisticsDeliveryManagerDbContext>();
-
-        if (dbContext.Database.GetPendingMigrations().Any())
-        {
-            dbContext.Database.Migrate();
-        }
+        dbContext.Database.Migrate();
     }
 }

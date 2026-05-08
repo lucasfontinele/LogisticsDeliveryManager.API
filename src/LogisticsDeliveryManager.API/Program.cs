@@ -1,6 +1,8 @@
 using LogisticsDeliveryManager.Api.Filters;
 using LogisticsDeliveryManager.Domain.Services.Customers;
 using LogisticsDeliveryManager.Domain.Services.Vehicles;
+using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
+using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 using LogisticsDeliveryManager.Infrastructure;
 using Microsoft.OpenApi.Models;
 using LogisticsDeliveryManager.API.Runners;
@@ -11,11 +13,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
+    var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins");
+    
     options.AddPolicy("DefaultPolicy", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        if (!string.IsNullOrEmpty(allowedOrigins))
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
     });
 });
 

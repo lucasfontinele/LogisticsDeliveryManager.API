@@ -29,7 +29,10 @@ internal class OrderRepository : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAll()
     {
-        return await _dbContext.Orders.AsNoTracking().ToListAsync();
+        return await _dbContext.Orders
+            .Include(o => o.DestinationAddress)
+            .AsNoTracking()
+            .ToListAsync();
     }
 
     public async Task<IEnumerable<Order>> GetAllByCustomerId(long customerId)

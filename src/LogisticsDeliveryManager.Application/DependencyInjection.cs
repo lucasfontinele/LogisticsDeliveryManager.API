@@ -11,6 +11,8 @@ using LogisticsDeliveryManager.Application.UseCases.Vehicles.GetVehicleById;
 using LogisticsDeliveryManager.Application.UseCases.Employees.GetEmployeeById;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.GetAllDrivers;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
+using LogisticsDeliveryManager.Application.UseCases.Orders.AssignVehicle;
+using LogisticsDeliveryManager.Domain.Services.Orders;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LogisticsDeliveryManager.Application;
@@ -41,6 +43,7 @@ public static class DependencyInjection
         services.AddScoped<UseCases.Orders.UpdateStatus.IUpdateOrderStatusUseCase, UseCases.Orders.UpdateStatus.UpdateOrderStatusUseCase>();
         services.AddScoped<UseCases.Orders.UploadProof.IUploadOrderProofUseCase, UseCases.Orders.UploadProof.UploadOrderProofUseCase>();
         services.AddScoped<UseCases.Orders.Evaluate.IEvaluateOrderUseCase, UseCases.Orders.Evaluate.EvaluateOrderUseCase>();
+        services.AddScoped<IAssignOrderToVehicleUseCase, AssignOrderToVehicleUseCase>();
         services.AddScoped<UseCases.Orders.GetCustomerOrders.IGetCustomerOrdersUseCase, UseCases.Orders.GetCustomerOrders.GetCustomerOrdersUseCase>();
         services.AddScoped<UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase, UseCases.Orders.GetDriverOrders.GetDriverOrdersUseCase>();
         services.AddScoped<IGetAllOrdersUseCase, GetAllOrdersUseCase>();
@@ -54,5 +57,6 @@ public static class DependencyInjection
         services.AddScoped<IGetAllDriversUseCase, GetAllDriversUseCase>();
         services.AddScoped<IGetDriverByIdUseCase, GetDriverByIdUseCase>();
         services.AddScoped<ICreateBatchUseCase, CreateBatchUseCase>();
+        services.AddScoped<IOrderRoutingDomainService, OrderRoutingDomainService>();
     }
 }

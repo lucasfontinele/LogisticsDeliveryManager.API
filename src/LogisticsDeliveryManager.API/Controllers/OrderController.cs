@@ -94,6 +94,22 @@ public class OrderController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("employee/{employeeId}")]
+    [ProducesResponseType(typeof(IEnumerable<OrderResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetEmployeeOrders(
+        [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase useCase,
+        [FromServices] LogisticsDeliveryManager.Domain.Repositories.Drivers.IDriverRepository driverRepository,
+        [FromServices] IMapper mapper,
+        [FromRoute] long employeeId)
+    {
+        var driver = await driverRepository.GetByEmployeeId(employeeId);
+        if (driver == null) return Ok(Enumerable.Empty<OrderResponseJson>());
+        
+        var orders = await useCase.Execute(driver.Id);
+        var response = mapper.Map<IEnumerable<OrderResponseJson>>(orders);
+        return Ok(response);
+    }
+
     [HttpPatch("{id}/status")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateStatus(
@@ -127,6 +143,17 @@ public class OrderController : ControllerBase
     {
         var command = new LogisticsDeliveryManager.Application.UseCases.Orders.Evaluate.EvaluateOrderCommand(id, request.Rating, request.Feedback);
         await useCase.Execute(command);
+        return NoContent();
+    }
+
+    [HttpPatch("{id}/assign-vehicle/{vehicleId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    public async Task<IActionResult> AssignVehicle(
+        [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.AssignVehicle.IAssignOrderToVehicleUseCase useCase,
+        [FromRoute] long id,
+        [FromRoute] long vehicleId)
+    {
+        await useCase.Execute(id, vehicleId);
         return NoContent();
     }
 }
