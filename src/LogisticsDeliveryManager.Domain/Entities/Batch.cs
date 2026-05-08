@@ -57,6 +57,7 @@ public class Batch : EntityBase
             ]);
         }
 
+        order.AssignVehicle(Vehicle);
         _batchOrders.Add(new BatchOrder(this, order));
     }
 
