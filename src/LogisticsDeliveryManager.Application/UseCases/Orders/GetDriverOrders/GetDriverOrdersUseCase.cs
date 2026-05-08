@@ -5,7 +5,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Orders.GetDriverOrders;
 
 public interface IGetDriverOrdersUseCase
 {
-    Task<IEnumerable<Order>> Execute(long driverId);
+    Task<IEnumerable<Order>> Execute(Guid driverId);
 }
 
 public class GetDriverOrdersUseCase : IGetDriverOrdersUseCase
@@ -17,7 +17,7 @@ public class GetDriverOrdersUseCase : IGetDriverOrdersUseCase
         _orderRepository = orderRepository;
     }
 
-    public async Task<IEnumerable<Order>> Execute(long driverId)
+    public async Task<IEnumerable<Order>> Execute(Guid driverId)
     {
         return await _orderRepository.GetAllByDriverId(driverId);
     }

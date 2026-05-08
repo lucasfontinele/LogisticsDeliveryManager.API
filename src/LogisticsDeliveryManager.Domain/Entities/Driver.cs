@@ -1,11 +1,12 @@
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
+using LogisticsDeliveryManager.Domain.Entities.Base;
+
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class Driver
+public class Driver : EntityBase
 {
-    public long Id { get; set; }
     public IEnumerable<DriverLicenseType> LicenseTypes { get; set; }
     public Employee Employee { get; set; }
 

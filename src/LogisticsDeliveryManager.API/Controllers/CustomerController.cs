@@ -63,7 +63,7 @@ public class CustomerController : ControllerBase
     public async Task<IActionResult> GetCustomerById(
         [FromServices] IGetCustomerByIdUseCase useCase,
         [FromServices] AutoMapper.IMapper mapper,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
     {
         var customer = await useCase.Execute(id);
         if (customer is null) return NotFound();

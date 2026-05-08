@@ -54,7 +54,7 @@ public class DriverController : ControllerBase
     public async Task<IActionResult> GetDriverById(
         [FromServices] IGetDriverByIdUseCase useCase,
         [FromServices] IMapper mapper,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
     {
         var driver = await useCase.Execute(id);
         if (driver is null) return NotFound();

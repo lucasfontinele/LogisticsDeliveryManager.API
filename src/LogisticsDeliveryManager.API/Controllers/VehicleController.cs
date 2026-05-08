@@ -57,7 +57,7 @@ public class VehicleController : ControllerBase
     public async Task<IActionResult> GetVehicleById(
         [FromServices] IGetVehicleByIdUseCase useCase,
         [FromServices] AutoMapper.IMapper mapper,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
     {
         var vehicle = await useCase.Execute(id);
         if (vehicle is null) return NotFound();
@@ -70,8 +70,8 @@ public class VehicleController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AllocateDriver(
         [FromServices] IAllocateDriverToVehicleUseCase useCase,
-        [FromRoute] long id,
-        [FromBody] long driverId)
+        [FromRoute] Guid id,
+        [FromBody] Guid driverId)
     {
         var command = new AllocateDriverToVehicleCommand(id, driverId);
         await useCase.Execute(command);

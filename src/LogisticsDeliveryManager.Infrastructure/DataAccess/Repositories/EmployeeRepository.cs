@@ -18,7 +18,7 @@ internal class EmployeeRepository : IEmployeeRepository
         await _dbContext.AddAsync(employee);
     }
 
-    public async Task<Employee?> GetById(long id)
+    public async Task<Employee?> GetById(Guid id)
     {
         return await _dbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);
     }

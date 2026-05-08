@@ -14,7 +14,7 @@ public class Vehicle : EntityBase
     public CompartmentType CompartmentType { get; private set; }
     public bool IsReadyForOrders { get; private set; } = true;
     public bool IsFullyLoaded { get; private set; } = false;
-    public long? CurrentDriverId { get; private set; }
+    public Guid? CurrentDriverId { get; private set; }
     public Driver? CurrentDriver { get; private set; }
 
     public void AllocateDriver(Driver driver) 

@@ -5,7 +5,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
 
 public interface IGetDriverByIdUseCase
 {
-    Task<Driver?> Execute(long id);
+    Task<Driver?> Execute(Guid id);
 }
 
 public class GetDriverByIdUseCase : IGetDriverByIdUseCase
@@ -17,7 +17,7 @@ public class GetDriverByIdUseCase : IGetDriverByIdUseCase
         _repository = repository;
     }
 
-    public async Task<Driver?> Execute(long id)
+    public async Task<Driver?> Execute(Guid id)
     {
         return await _repository.GetById(id);
     }

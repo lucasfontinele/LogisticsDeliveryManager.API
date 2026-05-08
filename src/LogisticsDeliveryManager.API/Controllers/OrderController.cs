@@ -62,7 +62,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetOrderById(
         [FromServices] IGetOrderByIdUseCase useCase,
         [FromServices] IMapper mapper,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
     {
         var order = await useCase.Execute(id);
         if (order is null) return NotFound();
@@ -75,7 +75,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetCustomerOrders(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.GetCustomerOrders.IGetCustomerOrdersUseCase useCase,
         [FromServices] IMapper mapper,
-        [FromRoute] long customerId)
+        [FromRoute] Guid customerId)
     {
         var orders = await useCase.Execute(customerId);
         var response = mapper.Map<IEnumerable<OrderResponseJson>>(orders);
@@ -87,7 +87,7 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetDriverOrders(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase useCase,
         [FromServices] IMapper mapper,
-        [FromRoute] long driverId)
+        [FromRoute] Guid driverId)
     {
         var orders = await useCase.Execute(driverId);
         var response = mapper.Map<IEnumerable<OrderResponseJson>>(orders);
@@ -100,7 +100,7 @@ public class OrderController : ControllerBase
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase useCase,
         [FromServices] LogisticsDeliveryManager.Domain.Repositories.Drivers.IDriverRepository driverRepository,
         [FromServices] IMapper mapper,
-        [FromRoute] long employeeId)
+        [FromRoute] Guid employeeId)
     {
         var driver = await driverRepository.GetByEmployeeId(employeeId);
         if (driver == null) return Ok(Enumerable.Empty<OrderResponseJson>());
@@ -114,7 +114,7 @@ public class OrderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UpdateStatus(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.UpdateStatus.IUpdateOrderStatusUseCase useCase,
-        [FromRoute] long id,
+        [FromRoute] Guid id,
         [FromBody] OrderStatus status)
     {
         var command = new LogisticsDeliveryManager.Application.UseCases.Orders.UpdateStatus.UpdateOrderStatusCommand(id, status);
@@ -126,7 +126,7 @@ public class OrderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> UploadProof(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.UploadProof.IUploadOrderProofUseCase useCase,
-        [FromRoute] long id,
+        [FromRoute] Guid id,
         [FromBody] string base64Image)
     {
         var command = new LogisticsDeliveryManager.Application.UseCases.Orders.UploadProof.UploadOrderProofCommand(id, base64Image);
@@ -138,7 +138,7 @@ public class OrderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> Evaluate(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.Evaluate.IEvaluateOrderUseCase useCase,
-        [FromRoute] long id,
+        [FromRoute] Guid id,
         [FromBody] EvaluateRequestJson request)
     {
         var command = new LogisticsDeliveryManager.Application.UseCases.Orders.Evaluate.EvaluateOrderCommand(id, request.Rating, request.Feedback);
@@ -150,8 +150,8 @@ public class OrderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     public async Task<IActionResult> AssignVehicle(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.AssignVehicle.IAssignOrderToVehicleUseCase useCase,
-        [FromRoute] long id,
-        [FromRoute] long vehicleId)
+        [FromRoute] Guid id,
+        [FromRoute] Guid vehicleId)
     {
         await useCase.Execute(id, vehicleId);
         return NoContent();

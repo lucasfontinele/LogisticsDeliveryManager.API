@@ -11,7 +11,7 @@ public class OrderProfile : Profile
     {
         CreateMap<Order, OrderResponseJson>()
             .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.Customer.Id))
-            .ForMember(dest => dest.AssignedVehicleId, opt => opt.MapFrom(src => src.AssignedVehicle != null ? src.AssignedVehicle.Id : (long?)null))
+            .ForMember(dest => dest.AssignedVehicleId, opt => opt.MapFrom(src => src.AssignedVehicle != null ? src.AssignedVehicle.Id : (Guid?)null))
             .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating))
             .ForMember(dest => dest.Feedback, opt => opt.MapFrom(src => src.Feedback));
 

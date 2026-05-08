@@ -12,7 +12,7 @@ public class GetOrderByIdUseCase : IGetOrderByIdUseCase
         _repository = repository;
     }
 
-    public async Task<Order?> Execute(long id)
+    public async Task<Order?> Execute(Guid id)
     {
         return await _repository.GetById(id);
     }

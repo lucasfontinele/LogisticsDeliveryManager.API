@@ -18,7 +18,7 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             await dbContext.AddAsync(customer);
         }
 
-        public async Task<Customer?> GetById(long id)
+        public async Task<Customer?> GetById(Guid id)
         {
             return await dbContext.Customers.FirstOrDefaultAsync(c => c.Id == id);
         }

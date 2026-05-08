@@ -57,7 +57,7 @@ public class EmployeeController : ControllerBase
     public async Task<IActionResult> GetEmployeeById(
         [FromServices] IGetEmployeeByIdUseCase useCase,
         [FromServices] IMapper mapper,
-        [FromRoute] long id)
+        [FromRoute] Guid id)
     {
         var employee = await useCase.Execute(id);
         if (employee is null) return NotFound();

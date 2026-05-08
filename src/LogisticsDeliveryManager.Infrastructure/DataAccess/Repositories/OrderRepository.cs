@@ -18,7 +18,7 @@ internal class OrderRepository : IOrderRepository
         await _dbContext.AddAsync(order);
     }
 
-    public async Task<Order?> GetById(long id)
+    public async Task<Order?> GetById(Guid id)
     {
         return await _dbContext.Orders
             .Include(o => o.Customer)
@@ -35,7 +35,7 @@ internal class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Order>> GetAllByCustomerId(long customerId)
+    public async Task<IEnumerable<Order>> GetAllByCustomerId(Guid customerId)
     {
         return await _dbContext.Orders
             .Include(o => o.DestinationAddress)
@@ -43,7 +43,7 @@ internal class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Order>> GetAllByDriverId(long driverId)
+    public async Task<IEnumerable<Order>> GetAllByDriverId(Guid driverId)
     {
         return await _dbContext.Orders
             .Include(o => o.DestinationAddress)

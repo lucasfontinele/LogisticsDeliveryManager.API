@@ -1,4 +1,4 @@
-﻿using LogisticsDeliveryManager.Domain.Repositories.Orders;
+using LogisticsDeliveryManager.Domain.Repositories.Orders;
 using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
@@ -7,7 +7,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Orders.AssignVehicle;
 
 public interface IAssignOrderToVehicleUseCase
 {
-    Task Execute(long orderId, long vehicleId);
+    Task Execute(Guid orderId, Guid vehicleId);
 }
 
 public class AssignOrderToVehicleUseCase : IAssignOrderToVehicleUseCase
@@ -26,7 +26,7 @@ public class AssignOrderToVehicleUseCase : IAssignOrderToVehicleUseCase
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Execute(long orderId, long vehicleId)
+    public async Task Execute(Guid orderId, Guid vehicleId)
     {
         var order = await _orderRepository.GetById(orderId);
         if (order is null)

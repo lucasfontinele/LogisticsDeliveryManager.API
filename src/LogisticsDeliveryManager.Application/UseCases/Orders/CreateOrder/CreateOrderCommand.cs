@@ -4,14 +4,14 @@ namespace LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
 
 public class CreateOrderCommand
 {
-    public long CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public CreateOrderAddressCommand DestinationAddress { get; set; } = null!;
     public CargoType CargoType { get; set; }
     public double Weight { get; set; }
     public double Volume { get; set; }
     public bool IsPriority { get; set; }
 
-    public CreateOrderCommand(long customerId, CreateOrderAddressCommand destinationAddress, CargoType cargoType, double weight, double volume, bool isPriority)
+    public CreateOrderCommand(Guid customerId, CreateOrderAddressCommand destinationAddress, CargoType cargoType, double weight, double volume, bool isPriority)
     {
         CustomerId = customerId;
         DestinationAddress = destinationAddress;

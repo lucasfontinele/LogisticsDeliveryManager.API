@@ -18,7 +18,7 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             await _dbContext.AddAsync(batch);
         }
 
-        public async Task<Batch?> GetById(long id)
+        public async Task<Batch?> GetById(Guid id)
         {
             return await _dbContext.Batches
                 .Include(b => b.Driver)
