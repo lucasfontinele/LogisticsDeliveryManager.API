@@ -12,6 +12,11 @@ public class Vehicle : EntityBase
     public double WeightCapacity { get; private set; }
     public double VolumeCapacity { get; private set; }
     public CompartmentType CompartmentType { get; private set; }
+    public bool IsReadyForOrders { get; private set; } = true;
+    public bool IsFullyLoaded { get; private set; } = false;
+
+    public void SetReadyForOrders(bool ready) => IsReadyForOrders = ready;
+    public void SetFullyLoaded(bool fullyLoaded) => IsFullyLoaded = fullyLoaded;
 
     private Vehicle() { }
 

@@ -3,10 +3,13 @@ namespace LogisticsDeliveryManager.Communication.Enums
     public enum OrderStatusJson
     {
         Pending,
-        InProgress,
-        Completed,
+        Processing,
+        PickedUp,
+        Delivered,
         Cancelled,
-        Delayed,
-        Returned
+        PartialDelivered,
+        Rescheduled,
+        Returned,
+        Redirected
     }
 }
