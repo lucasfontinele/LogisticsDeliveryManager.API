@@ -4,6 +4,8 @@ namespace LogisticsDeliveryManager.Communication.Enums
     {
         Pending,
         Processing,
+        Shipped,
+        InTransit,
         PickedUp,
         Delivered,
         Cancelled,
