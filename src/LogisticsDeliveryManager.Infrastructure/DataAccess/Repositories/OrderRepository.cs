@@ -49,11 +49,17 @@ internal class OrderRepository : IOrderRepository
 
     public async Task<IEnumerable<Order>> GetAllByDriverId(Guid driverId)
     {
+        // Get order IDs from batches belonging to this driver
+        var orderIdsFromBatches = await _dbContext.BatchOrders
+            .Where(bo => bo.Batch.Driver.Id == driverId)
+            .Select(bo => bo.Order.Id)
+            .ToListAsync();
+
         return await _dbContext.Orders
             .Include(o => o.Customer)
             .Include(o => o.DestinationAddress)
             .Include(o => o.AssignedVehicle)
-            .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriverId == driverId)
+            .Where(o => orderIdsFromBatches.Contains(o.Id) || (o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriverId == driverId))
             .ToListAsync();
     }
 
