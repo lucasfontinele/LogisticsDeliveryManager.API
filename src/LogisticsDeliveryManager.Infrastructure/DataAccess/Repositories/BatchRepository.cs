@@ -23,6 +23,8 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             return await _dbContext.Batches
                 .Include(b => b.Driver)
                 .Include(b => b.Vehicle)
+                .Include(b => b.BatchOrders)
+                .ThenInclude(bo => bo.Order)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
@@ -31,6 +33,8 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             return await _dbContext.Batches
                 .Include(b => b.Driver)
                 .Include(b => b.Vehicle)
+                .Include(b => b.BatchOrders)
+                .ThenInclude(bo => bo.Order)
                 .ToListAsync();
         }
 
