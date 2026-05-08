@@ -36,4 +36,11 @@ internal class DriverRepository : IDriverRepository
     {
         return await _dbContext.Drivers.AnyAsync(d => d.Employee.Id == employeeId);
     }
+
+    public async Task<Driver?> GetByEmployeeId(long employeeId)
+    {
+        return await _dbContext.Drivers
+            .Include(d => d.Employee)
+            .FirstOrDefaultAsync(d => d.Employee.Id == employeeId);
+    }
 }

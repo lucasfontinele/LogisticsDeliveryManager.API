@@ -59,7 +59,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Batch", b =>
@@ -94,7 +94,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("VehicleId");
 
-                    b.ToTable("Batches", (string)null);
+                    b.ToTable("Batches");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.BatchOrder", b =>
@@ -123,7 +123,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("BatchOrders", (string)null);
+                    b.ToTable("BatchOrders");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Customer", b =>
@@ -166,7 +166,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Driver", b =>
@@ -188,7 +188,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Drivers", (string)null);
+                    b.ToTable("Drivers");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Employee", b =>
@@ -231,7 +231,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Order", b =>
@@ -266,11 +266,17 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<long>("DestinationAddressId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("Feedback")
+                        .HasColumnType("text");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsPriority")
                         .HasColumnType("boolean");
+
+                    b.Property<int?>("Rating")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -289,7 +295,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("DestinationAddressId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Shipping", b =>
@@ -320,7 +326,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Shippings", (string)null);
+                    b.ToTable("Shippings");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.ShippingStatuses", b =>
@@ -347,7 +353,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasIndex("ShippingId");
 
-                    b.ToTable("ShippingStatuses", (string)null);
+                    b.ToTable("ShippingStatuses");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Vehicle", b =>
@@ -363,6 +369,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("CurrentDriverId")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -389,7 +398,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vehicles", (string)null);
+                    b.HasIndex("CurrentDriverId");
+
+                    b.ToTable("Vehicles");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Address", b =>
@@ -493,6 +504,15 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Shipping");
+                });
+
+            modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Vehicle", b =>
+                {
+                    b.HasOne("LogisticsDeliveryManager.Domain.Entities.Driver", "CurrentDriver")
+                        .WithMany()
+                        .HasForeignKey("CurrentDriverId");
+
+                    b.Navigation("CurrentDriver");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Customer", b =>

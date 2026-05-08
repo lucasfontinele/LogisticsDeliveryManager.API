@@ -8,4 +8,5 @@ public interface IDriverRepository
     Task<Driver?> GetById(long id);
     Task<IEnumerable<Driver>> GetAll();
     Task<bool> ExistDriverForEmployee(long employeeId);
+    Task<Driver?> GetByEmployeeId(long employeeId);
 }

@@ -16,4 +16,6 @@ public class OrderResponseJson
     public double Volume { get; set; }
     public bool IsPriority { get; set; }
     public long? AssignedVehicleId { get; set; }
+    public int? Rating { get; set; }
+    public string? Feedback { get; set; }
 }

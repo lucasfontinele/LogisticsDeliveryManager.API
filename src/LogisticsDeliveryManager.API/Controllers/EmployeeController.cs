@@ -1,5 +1,7 @@
 using AutoMapper;
 using LogisticsDeliveryManager.Application.UseCases.Employees.CreateEmployee;
+using LogisticsDeliveryManager.Application.UseCases.Employees.GetAllEmployees;
+using LogisticsDeliveryManager.Application.UseCases.Employees.GetEmployeeById;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
@@ -36,5 +38,30 @@ public class EmployeeController : ControllerBase
         var response = mapper.Map<CreateEmployeeResponseJson>(employee);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<EmployeeResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllEmployees(
+        [FromServices] IGetAllEmployeesUseCase useCase,
+        [FromServices] IMapper mapper)
+    {
+        var employees = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<EmployeeResponseJson>>(employees);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(EmployeeResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetEmployeeById(
+        [FromServices] IGetEmployeeByIdUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromRoute] long id)
+    {
+        var employee = await useCase.Execute(id);
+        if (employee is null) return NotFound();
+        var response = mapper.Map<EmployeeResponseJson>(employee);
+        return Ok(response);
     }
 }

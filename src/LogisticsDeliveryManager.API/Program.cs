@@ -11,6 +11,21 @@ using LogisticsDeliveryManager.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    var allowedOrigins = builder.Configuration.GetValue<string>("AllowedOrigins");
+    
+    options.AddPolicy("DefaultPolicy", policy =>
+    {
+        if (!string.IsNullOrEmpty(allowedOrigins))
+        {
+            policy.WithOrigins(allowedOrigins)
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        }
+    });
+});
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
@@ -53,6 +68,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("DefaultPolicy");
 
 app.UseAuthorization();
 

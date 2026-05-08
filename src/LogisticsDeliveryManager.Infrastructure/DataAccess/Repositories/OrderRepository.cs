@@ -27,11 +27,27 @@ internal class OrderRepository : IOrderRepository
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public async Task<IEnumerable<Order>> GetAll()
+    {
+        return await _dbContext.Orders
+            .Include(o => o.DestinationAddress)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Order>> GetAllByCustomerId(long customerId)
     {
         return await _dbContext.Orders
             .Include(o => o.DestinationAddress)
             .Where(o => o.Customer.Id == customerId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Order>> GetAllByDriverId(long driverId)
+    {
+        return await _dbContext.Orders
+            .Include(o => o.DestinationAddress)
+            .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriver != null && o.AssignedVehicle.CurrentDriver.Id == driverId)
             .ToListAsync();
     }
 

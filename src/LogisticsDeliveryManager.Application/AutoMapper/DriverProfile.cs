@@ -11,5 +11,9 @@ public class DriverProfile : Profile
         CreateMap<Driver, CreateDriverResponseJson>()
             .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.Id))
             .ForMember(dest => dest.LicenseTypes, opt => opt.MapFrom(src => src.LicenseTypes.Select(l => (int)l)));
+
+        CreateMap<Driver, DriverResponseJson>()
+            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.Id))
+            .ForMember(dest => dest.LicenseTypes, opt => opt.MapFrom(src => src.LicenseTypes.Select(l => (int)l)));
     }
 }
