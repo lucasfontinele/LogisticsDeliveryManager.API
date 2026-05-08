@@ -27,6 +27,11 @@ internal class OrderRepository : IOrderRepository
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
+    public async Task<IEnumerable<Order>> GetAll()
+    {
+        return await _dbContext.Orders.AsNoTracking().ToListAsync();
+    }
+
     public async Task<IEnumerable<Order>> GetAllByCustomerId(long customerId)
     {
         return await _dbContext.Orders

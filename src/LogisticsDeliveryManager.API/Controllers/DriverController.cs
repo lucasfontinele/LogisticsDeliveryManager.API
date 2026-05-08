@@ -1,5 +1,7 @@
 using AutoMapper;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.CreateDriver;
+using LogisticsDeliveryManager.Application.UseCases.Drivers.GetAllDrivers;
+using LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
@@ -33,5 +35,30 @@ public class DriverController : ControllerBase
         var response = mapper.Map<CreateDriverResponseJson>(driver);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<DriverResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllDrivers(
+        [FromServices] IGetAllDriversUseCase useCase,
+        [FromServices] IMapper mapper)
+    {
+        var drivers = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<DriverResponseJson>>(drivers);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(DriverResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetDriverById(
+        [FromServices] IGetDriverByIdUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromRoute] long id)
+    {
+        var driver = await useCase.Execute(id);
+        if (driver is null) return NotFound();
+        var response = mapper.Map<DriverResponseJson>(driver);
+        return Ok(response);
     }
 }

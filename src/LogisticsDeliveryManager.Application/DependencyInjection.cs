@@ -3,6 +3,13 @@ using LogisticsDeliveryManager.Application.UseCases.Drivers.CreateDriver;
 using LogisticsDeliveryManager.Application.UseCases.Employees.CreateEmployee;
 using LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
 using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
+using LogisticsDeliveryManager.Application.UseCases.Orders.GetAllOrders;
+using LogisticsDeliveryManager.Application.UseCases.Orders.GetOrderById;
+using LogisticsDeliveryManager.Application.UseCases.Customers.GetCustomerById;
+using LogisticsDeliveryManager.Application.UseCases.Vehicles.GetVehicleById;
+using LogisticsDeliveryManager.Application.UseCases.Employees.GetEmployeeById;
+using LogisticsDeliveryManager.Application.UseCases.Drivers.GetAllDrivers;
+using LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LogisticsDeliveryManager.Application;
@@ -35,5 +42,15 @@ public static class DependencyInjection
         services.AddScoped<UseCases.Orders.Evaluate.IEvaluateOrderUseCase, UseCases.Orders.Evaluate.EvaluateOrderUseCase>();
         services.AddScoped<UseCases.Orders.GetCustomerOrders.IGetCustomerOrdersUseCase, UseCases.Orders.GetCustomerOrders.GetCustomerOrdersUseCase>();
         services.AddScoped<UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase, UseCases.Orders.GetDriverOrders.GetDriverOrdersUseCase>();
+        services.AddScoped<IGetAllOrdersUseCase, GetAllOrdersUseCase>();
+        services.AddScoped<IGetOrderByIdUseCase, GetOrderByIdUseCase>();
+        services.AddScoped<UseCases.Customers.GetAllCustomers.IGetAllCustomersUseCase, UseCases.Customers.GetAllCustomers.GetAllCustomersUseCase>();
+        services.AddScoped<IGetCustomerByIdUseCase, GetCustomerByIdUseCase>();
+        services.AddScoped<UseCases.Vehicles.GetAllVehicles.IGetAllVehiclesUseCase, UseCases.Vehicles.GetAllVehicles.GetAllVehiclesUseCase>();
+        services.AddScoped<IGetVehicleByIdUseCase, GetVehicleByIdUseCase>();
+        services.AddScoped<UseCases.Employees.GetAllEmployees.IGetAllEmployeesUseCase, UseCases.Employees.GetAllEmployees.GetAllEmployeesUseCase>();
+        services.AddScoped<IGetEmployeeByIdUseCase, GetEmployeeByIdUseCase>();
+        services.AddScoped<IGetAllDriversUseCase, GetAllDriversUseCase>();
+        services.AddScoped<IGetDriverByIdUseCase, GetDriverByIdUseCase>();
     }
 }

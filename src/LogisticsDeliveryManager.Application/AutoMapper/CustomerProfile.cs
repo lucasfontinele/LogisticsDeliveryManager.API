@@ -10,7 +10,9 @@ public class CustomerProfile : Profile
     public CustomerProfile()
     {
         CreateMap<Customer, CreateCustomerResponseJson>()
-            .ForMember(dest => dest.CustomerType, opt => opt.MapFrom(src => src.CustomerType));
+            .ForMember(dest => dest.CustomerType, opt => opt.MapFrom(src => (int)src.CustomerType));
+
+        CreateMap<Customer, CustomerResponseJson>();
 
         CreateMap<Address, AddressRequestJson>();
     }

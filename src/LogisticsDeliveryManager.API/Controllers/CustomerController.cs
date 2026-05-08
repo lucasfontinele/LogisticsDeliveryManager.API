@@ -3,6 +3,8 @@ using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
+using LogisticsDeliveryManager.Application.UseCases.Customers.GetAllCustomers;
+using LogisticsDeliveryManager.Application.UseCases.Customers.GetCustomerById;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -42,5 +44,30 @@ public class CustomerController : ControllerBase
         var response = mapper.Map<CreateCustomerResponseJson>(customer);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CustomerResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllCustomers(
+        [FromServices] IGetAllCustomersUseCase useCase,
+        [FromServices] AutoMapper.IMapper mapper)
+    {
+        var customers = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<CustomerResponseJson>>(customers);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(CustomerResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetCustomerById(
+        [FromServices] IGetCustomerByIdUseCase useCase,
+        [FromServices] AutoMapper.IMapper mapper,
+        [FromRoute] long id)
+    {
+        var customer = await useCase.Execute(id);
+        if (customer is null) return NotFound();
+        var response = mapper.Map<CustomerResponseJson>(customer);
+        return Ok(response);
     }
 }

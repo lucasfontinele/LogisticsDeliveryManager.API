@@ -6,6 +6,7 @@ public interface IOrderRepository
 {
     Task Add(Order order);
     Task<Order?> GetById(long id);
+    Task<IEnumerable<Order>> GetAll();
     Task<IEnumerable<Order>> GetAllByCustomerId(long customerId);
     Task<IEnumerable<Order>> GetAllByDriverId(long driverId);
     void Update(Order order);

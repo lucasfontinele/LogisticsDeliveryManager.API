@@ -4,6 +4,8 @@ using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
+using LogisticsDeliveryManager.Application.UseCases.Orders.GetAllOrders;
+using LogisticsDeliveryManager.Application.UseCases.Orders.GetOrderById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LogisticsDeliveryManager.API.Controllers;
@@ -41,6 +43,31 @@ public class OrderController : ControllerBase
         var response = mapper.Map<OrderResponseJson>(order);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<OrderResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllOrders(
+        [FromServices] IGetAllOrdersUseCase useCase,
+        [FromServices] IMapper mapper)
+    {
+        var orders = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<OrderResponseJson>>(orders);
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    [ProducesResponseType(typeof(OrderResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetOrderById(
+        [FromServices] IGetOrderByIdUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromRoute] long id)
+    {
+        var order = await useCase.Execute(id);
+        if (order is null) return NotFound();
+        var response = mapper.Map<OrderResponseJson>(order);
+        return Ok(response);
     }
 
     [HttpGet("customer/{customerId}")]
