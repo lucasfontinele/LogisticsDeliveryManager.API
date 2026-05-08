@@ -1,4 +1,4 @@
-namespace LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
+namespace LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 
 public sealed record CreateCustomerAddressCommand(
     string Street,

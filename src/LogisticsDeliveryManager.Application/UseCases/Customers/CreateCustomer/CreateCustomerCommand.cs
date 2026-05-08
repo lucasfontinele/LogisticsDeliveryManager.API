@@ -1,6 +1,6 @@
 using LogisticsDeliveryManager.Domain.Enums;
 
-namespace LogisticsDeliveryManager.Domain.UseCases.Customers.CreateCustomer;
+namespace LogisticsDeliveryManager.Application.UseCases.Customers.CreateCustomer;
 
 public sealed record CreateCustomerCommand(
     string Name,
