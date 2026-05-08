@@ -25,5 +25,7 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
         modelBuilder.Entity<Customer>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Employee>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Vehicle>().HasQueryFilter(e => e.IsActive);
+        modelBuilder.Entity<Batch>().HasQueryFilter(e => e.IsActive);
+        modelBuilder.Entity<BatchOrder>().HasQueryFilter(e => e.IsActive);
     }
 }

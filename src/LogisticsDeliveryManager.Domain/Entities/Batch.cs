@@ -1,16 +1,15 @@
 using LogisticsDeliveryManager.Domain.Enums;
+using LogisticsDeliveryManager.Domain.Entities.Base;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class Batch
+public class Batch : EntityBase
 {
-    public long Id { get; set; }
     public CargoType Type { get; set; }
     public Driver Driver { get; set; }
     public Vehicle Vehicle { get; set; }
     public DateOnly DeliveryDate { get; set; }
-    public DateTime CreatedAt { get; set; }
 
     private Batch() { }
 
@@ -22,7 +21,6 @@ public class Batch
         Driver = driver;
         Vehicle = vehicle;
         DeliveryDate = deliveryDate;
-        CreatedAt = DateTime.UtcNow;
     }
 
     private static void Validate(CargoType type, Driver driver, Vehicle vehicle, DateOnly deliveryDate)
