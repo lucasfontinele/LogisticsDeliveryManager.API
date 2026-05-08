@@ -18,13 +18,15 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             await _dbContext.AddAsync(batch);
         }
 
-        public async Task<Batch?> GetById(long id)
+        public async Task<Batch?> GetById(Guid id)
         {
             return await _dbContext.Batches
                 .Include(b => b.Driver)
+                    .ThenInclude(d => d.Employee)
                 .Include(b => b.Vehicle)
                 .Include(b => b.BatchOrders)
                 .ThenInclude(bo => bo.Order)
+                    .ThenInclude(o => o.Customer)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
@@ -32,9 +34,11 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
         {
             return await _dbContext.Batches
                 .Include(b => b.Driver)
+                    .ThenInclude(d => d.Employee)
                 .Include(b => b.Vehicle)
                 .Include(b => b.BatchOrders)
                 .ThenInclude(bo => bo.Order)
+                    .ThenInclude(o => o.Customer)
                 .ToListAsync();
         }
 

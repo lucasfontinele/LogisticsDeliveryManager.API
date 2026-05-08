@@ -4,10 +4,10 @@ namespace LogisticsDeliveryManager.Application.UseCases.Orders.UpdateStatus;
 
 public class UpdateOrderStatusCommand
 {
-    public long OrderId { get; set; }
+    public Guid OrderId { get; set; }
     public OrderStatus NewStatus { get; set; }
 
-    public UpdateOrderStatusCommand(long orderId, OrderStatus newStatus)
+    public UpdateOrderStatusCommand(Guid orderId, OrderStatus newStatus)
     {
         OrderId = orderId;
         NewStatus = newStatus;

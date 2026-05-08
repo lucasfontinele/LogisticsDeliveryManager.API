@@ -2,11 +2,11 @@ namespace LogisticsDeliveryManager.Application.UseCases.Orders.Evaluate;
 
 public class EvaluateOrderCommand
 {
-    public long OrderId { get; set; }
+    public Guid OrderId { get; set; }
     public int Rating { get; set; }
     public string? Feedback { get; set; }
 
-    public EvaluateOrderCommand(long orderId, int rating, string? feedback)
+    public EvaluateOrderCommand(Guid orderId, int rating, string? feedback)
     {
         OrderId = orderId;
         Rating = rating;

@@ -5,9 +5,9 @@ namespace LogisticsDeliveryManager.Domain.Repositories.Orders;
 public interface IOrderRepository
 {
     Task Add(Order order);
-    Task<Order?> GetById(long id);
+    Task<Order?> GetById(Guid id);
     Task<IEnumerable<Order>> GetAll();
-    Task<IEnumerable<Order>> GetAllByCustomerId(long customerId);
-    Task<IEnumerable<Order>> GetAllByDriverId(long driverId);
+    Task<IEnumerable<Order>> GetAllByCustomerId(Guid customerId);
+    Task<IEnumerable<Order>> GetAllByDriverId(Guid driverId);
     void Update(Order order);
 }

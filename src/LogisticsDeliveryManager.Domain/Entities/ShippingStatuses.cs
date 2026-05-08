@@ -1,15 +1,14 @@
+using LogisticsDeliveryManager.Domain.Entities.Base;
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class ShippingStatuses
+public class ShippingStatuses : EntityBase
 {
-    public long Id { get; private set; }
     public Shipping Shipping { get; private set; }
     public DateOnly EstimatedDeliveryDate { get; private set; }
     public OrderStatus Status { get; private set; }
-    public DateTime CreatedAt { get; private set; }
 
     private ShippingStatuses() { }
 
@@ -19,7 +18,6 @@ public class ShippingStatuses
         Shipping = shipping;
         EstimatedDeliveryDate = estimatedDeliveryDate;
         Status = status;
-        CreatedAt = DateTime.UtcNow;
     }
 
     private static void Validate(Shipping shipping, DateOnly estimatedDeliveryDate, OrderStatus status)

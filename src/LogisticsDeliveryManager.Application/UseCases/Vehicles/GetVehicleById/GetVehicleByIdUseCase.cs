@@ -5,7 +5,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.GetVehicleById;
 
 public interface IGetVehicleByIdUseCase
 {
-    Task<Vehicle?> Execute(long id);
+    Task<Vehicle?> Execute(Guid id);
 }
 
 public class GetVehicleByIdUseCase : IGetVehicleByIdUseCase
@@ -17,7 +17,7 @@ public class GetVehicleByIdUseCase : IGetVehicleByIdUseCase
         _repository = repository;
     }
 
-    public async Task<Vehicle?> Execute(long id)
+    public async Task<Vehicle?> Execute(Guid id)
     {
         return await _repository.GetById(id);
     }

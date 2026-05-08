@@ -5,7 +5,7 @@ namespace LogisticsDeliveryManager.Application.UseCases.Customers.GetCustomerByI
 
 public interface IGetCustomerByIdUseCase
 {
-    Task<Customer?> Execute(long id);
+    Task<Customer?> Execute(Guid id);
 }
 
 public class GetCustomerByIdUseCase : IGetCustomerByIdUseCase
@@ -17,7 +17,7 @@ public class GetCustomerByIdUseCase : IGetCustomerByIdUseCase
         _repository = repository;
     }
 
-    public async Task<Customer?> Execute(long id)
+    public async Task<Customer?> Execute(Guid id)
     {
         return await _repository.GetById(id);
     }

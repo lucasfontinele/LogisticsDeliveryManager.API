@@ -4,10 +4,10 @@ namespace LogisticsDeliveryManager.Application.UseCases.Drivers.CreateDriver;
 
 public class CreateDriverCommand
 {
-    public long EmployeeId { get; private set; }
+    public Guid EmployeeId { get; private set; }
     public IEnumerable<DriverLicenseType> LicenseTypes { get; private set; }
 
-    public CreateDriverCommand(long employeeId, IEnumerable<DriverLicenseType> licenseTypes)
+    public CreateDriverCommand(Guid employeeId, IEnumerable<DriverLicenseType> licenseTypes)
     {
         EmployeeId = employeeId;
         LicenseTypes = licenseTypes;

@@ -2,10 +2,10 @@ namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.AllocateDriver;
 
 public class AllocateDriverToVehicleCommand
 {
-    public long VehicleId { get; set; }
-    public long DriverId { get; set; }
+    public Guid VehicleId { get; set; }
+    public Guid DriverId { get; set; }
 
-    public AllocateDriverToVehicleCommand(long vehicleId, long driverId)
+    public AllocateDriverToVehicleCommand(Guid vehicleId, Guid driverId)
     {
         VehicleId = vehicleId;
         DriverId = driverId;

@@ -18,7 +18,7 @@ internal class DriverRepository : IDriverRepository
         await _dbContext.AddAsync(driver);
     }
 
-    public async Task<Driver?> GetById(long id)
+    public async Task<Driver?> GetById(Guid id)
     {
         return await _dbContext.Drivers
             .Include(d => d.Employee)
@@ -32,12 +32,12 @@ internal class DriverRepository : IDriverRepository
             .ToListAsync();
     }
 
-    public async Task<bool> ExistDriverForEmployee(long employeeId)
+    public async Task<bool> ExistDriverForEmployee(Guid employeeId)
     {
         return await _dbContext.Drivers.AnyAsync(d => d.Employee.Id == employeeId);
     }
 
-    public async Task<Driver?> GetByEmployeeId(long employeeId)
+    public async Task<Driver?> GetByEmployeeId(Guid employeeId)
     {
         return await _dbContext.Drivers
             .Include(d => d.Employee)

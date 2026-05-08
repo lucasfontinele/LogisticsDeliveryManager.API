@@ -1,14 +1,13 @@
+using LogisticsDeliveryManager.Domain.Entities.Base;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class Shipping
+public class Shipping : EntityBase
 {
-    public long Id { get; private set; }
     public Order Order { get; private set; }
     public string Address { get; private set; }
     public DateOnly EstimatedDeliveryDate { get; private set; }
-    public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
     private Shipping() { }
@@ -20,7 +19,6 @@ public class Shipping
         Order = order;
         Address = address;
         EstimatedDeliveryDate = estimatedDeliveryDate;
-        CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
     }
 

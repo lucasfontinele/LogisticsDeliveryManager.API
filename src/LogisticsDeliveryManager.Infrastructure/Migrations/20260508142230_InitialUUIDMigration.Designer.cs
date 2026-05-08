@@ -13,15 +13,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LogisticsDeliveryManager.Infrastructure.Migrations
 {
     [DbContext(typeof(LogisticsDeliveryManagerDbContext))]
-    [Migration("20260507231442_AdicionandoNovasEntidadesDaDeveloper")]
-    partial class AdicionandoNovasEntidadesDaDeveloper
+    [Migration("20260508142230_InitialUUIDMigration")]
+    partial class InitialUUIDMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "9.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -38,8 +38,8 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("CustomerId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid?>("CustomerId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -49,7 +49,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "PostalCode", "LogisticsDeliveryManager.Domain.Entities.Address.PostalCode#PostalCode", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("PostalCode", "LogisticsDeliveryManager.Domain.Entities.Address.PostalCode#PostalCode", b1 =>
                         {
                             b1.IsRequired();
 
@@ -67,11 +67,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Batch", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -79,14 +77,17 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<DateOnly>("DeliveryDate")
                         .HasColumnType("date");
 
-                    b.Property<long>("DriverId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("DriverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<long>("VehicleId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("VehicleId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -99,20 +100,21 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.BatchOrder", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BatchId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("BatchId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -125,11 +127,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Customer", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -141,6 +141,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -149,7 +152,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "Email", "LogisticsDeliveryManager.Domain.Entities.Customer.Email#Email", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Email", "LogisticsDeliveryManager.Domain.Entities.Customer.Email#Email", b1 =>
                         {
                             b1.IsRequired();
 
@@ -165,14 +168,18 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Driver", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("uuid");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<long>("EmployeeId")
-                        .HasColumnType("bigint");
+                    b.Property<Guid>("EmployeeId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.PrimitiveCollection<int[]>("LicenseTypes")
                         .IsRequired()
@@ -187,11 +194,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Employee", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -199,6 +204,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<string>("Document")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -211,7 +219,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<int>("RoleType")
                         .HasColumnType("integer");
 
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "Email", "LogisticsDeliveryManager.Domain.Entities.Employee.Email#Email", b1 =>
+                    b.ComplexProperty<Dictionary<string, object>>("Email", "LogisticsDeliveryManager.Domain.Entities.Employee.Email#Email", b1 =>
                         {
                             b1.IsRequired();
 
@@ -227,35 +235,71 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Order", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("AssignedVehicleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CargoType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DeliveryProofImageBase64")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("DeliveryWindowEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DeliveryWindowStart")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("DestinationAddressId")
                         .HasColumnType("bigint");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                    b.Property<string>("Feedback")
+                        .HasColumnType("text");
 
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsPriority")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("Rating")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
+                    b.Property<double>("Volume")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("double precision");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("AssignedVehicleId");
+
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("DestinationAddressId");
 
                     b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Shipping", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -267,8 +311,11 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<DateOnly>("EstimatedDeliveryDate")
                         .HasColumnType("date");
 
-                    b.Property<long>("OrderId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -282,11 +329,9 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.ShippingStatuses", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -294,8 +339,11 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                     b.Property<DateOnly>("EstimatedDeliveryDate")
                         .HasColumnType("date");
 
-                    b.Property<long>("ShippingId")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid>("ShippingId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
@@ -309,14 +357,27 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Vehicle", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<int>("CompartmentType")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("CurrentDriverId")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFullyLoaded")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReadyForOrders")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LicensePlate")
                         .IsRequired()
@@ -333,6 +394,8 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CurrentDriverId");
 
                     b.ToTable("Vehicles");
                 });
@@ -366,7 +429,7 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.BatchOrder", b =>
                 {
                     b.HasOne("LogisticsDeliveryManager.Domain.Entities.Batch", "Batch")
-                        .WithMany()
+                        .WithMany("BatchOrders")
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -395,13 +458,27 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Order", b =>
                 {
+                    b.HasOne("LogisticsDeliveryManager.Domain.Entities.Vehicle", "AssignedVehicle")
+                        .WithMany()
+                        .HasForeignKey("AssignedVehicleId");
+
                     b.HasOne("LogisticsDeliveryManager.Domain.Entities.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LogisticsDeliveryManager.Domain.Entities.Address", "DestinationAddress")
+                        .WithMany()
+                        .HasForeignKey("DestinationAddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedVehicle");
+
                     b.Navigation("Customer");
+
+                    b.Navigation("DestinationAddress");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Shipping", b =>
@@ -424,6 +501,20 @@ namespace LogisticsDeliveryManager.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Shipping");
+                });
+
+            modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Vehicle", b =>
+                {
+                    b.HasOne("LogisticsDeliveryManager.Domain.Entities.Driver", "CurrentDriver")
+                        .WithMany()
+                        .HasForeignKey("CurrentDriverId");
+
+                    b.Navigation("CurrentDriver");
+                });
+
+            modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Batch", b =>
+                {
+                    b.Navigation("BatchOrders");
                 });
 
             modelBuilder.Entity("LogisticsDeliveryManager.Domain.Entities.Customer", b =>

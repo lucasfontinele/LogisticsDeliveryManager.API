@@ -1,11 +1,11 @@
-﻿using LogisticsDeliveryManager.Domain.Entities;
+using LogisticsDeliveryManager.Domain.Entities;
 using LogisticsDeliveryManager.Domain.Repositories.Orders;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Orders.GetOrdersByDriverId;
 
 public interface IGetOrdersByDriverIdUseCase
 {
-    Task<IEnumerable<Order>> Execute(long driverId);
+    Task<IEnumerable<Order>> Execute(Guid driverId);
 }
 
 public class GetOrdersByDriverIdUseCase : IGetOrdersByDriverIdUseCase
@@ -17,7 +17,7 @@ public class GetOrdersByDriverIdUseCase : IGetOrdersByDriverIdUseCase
         _repository = repository;
     }
 
-    public async Task<IEnumerable<Order>> Execute(long driverId)
+    public async Task<IEnumerable<Order>> Execute(Guid driverId)
     {
         return await _repository.GetAllByDriverId(driverId);
     }

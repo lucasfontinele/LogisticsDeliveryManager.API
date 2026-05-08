@@ -18,7 +18,7 @@ internal class OrderRepository : IOrderRepository
         await _dbContext.AddAsync(order);
     }
 
-    public async Task<Order?> GetById(long id)
+    public async Task<Order?> GetById(Guid id)
     {
         return await _dbContext.Orders
             .Include(o => o.Customer)
@@ -30,23 +30,29 @@ internal class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAll()
     {
         return await _dbContext.Orders
+            .Include(o => o.Customer)
             .Include(o => o.DestinationAddress)
+            .Include(o => o.AssignedVehicle)
             .AsNoTracking()
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Order>> GetAllByCustomerId(long customerId)
+    public async Task<IEnumerable<Order>> GetAllByCustomerId(Guid customerId)
     {
         return await _dbContext.Orders
+            .Include(o => o.Customer)
             .Include(o => o.DestinationAddress)
+            .Include(o => o.AssignedVehicle)
             .Where(o => o.Customer.Id == customerId)
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Order>> GetAllByDriverId(long driverId)
+    public async Task<IEnumerable<Order>> GetAllByDriverId(Guid driverId)
     {
         return await _dbContext.Orders
+            .Include(o => o.Customer)
             .Include(o => o.DestinationAddress)
+            .Include(o => o.AssignedVehicle)
             .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriverId == driverId)
             .ToListAsync();
     }
