@@ -1,4 +1,5 @@
 using AutoMapper;
+using LogisticsDeliveryManager.Application.UseCases.Batch.AddOrderToBatch;
 using LogisticsDeliveryManager.Application.UseCases.Batch.CreateBatch;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
@@ -28,5 +29,18 @@ public class BatchController : ControllerBase
         var response = mapper.Map<CreateBatchResponseJson>(batch);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpPost("{batchId}/orders/{orderId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> AddOrderToBatch(
+        [FromServices] IAddOrderToBatchUseCase useCase,
+        [FromRoute] long batchId,
+        [FromRoute] long orderId)
+    {
+        await useCase.Execute(batchId, orderId);
+        return NoContent();
     }
 }
