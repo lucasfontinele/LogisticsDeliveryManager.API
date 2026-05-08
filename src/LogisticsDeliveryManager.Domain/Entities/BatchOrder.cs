@@ -1,13 +1,12 @@
+using LogisticsDeliveryManager.Domain.Entities.Base;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class BatchOrder
+public class BatchOrder : EntityBase
 {
-    public long Id { get; set; }
     public Batch Batch { get; private set; }
     public Order Order { get; private set; }
-    public DateTime CreatedAt { get; private set; }
 
     private BatchOrder() { }
 
@@ -17,7 +16,6 @@ public class BatchOrder
 
         Batch = batch;
         Order = order;
-        CreatedAt = DateTime.UtcNow;
     }
 
     private static void Validate(Batch batch, Order order)
