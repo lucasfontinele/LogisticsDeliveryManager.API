@@ -29,5 +29,11 @@ public static class DependencyInjection
         services.AddScoped<ICreateEmployeeUseCase, CreateEmployeeUseCase>();
         services.AddScoped<ICreateDriverUseCase, CreateDriverUseCase>();
         services.AddScoped<ICreateOrderUseCase, CreateOrderUseCase>();
+        services.AddScoped<UseCases.Vehicles.AllocateDriver.IAllocateDriverToVehicleUseCase, UseCases.Vehicles.AllocateDriver.AllocateDriverToVehicleUseCase>();
+        services.AddScoped<UseCases.Orders.UpdateStatus.IUpdateOrderStatusUseCase, UseCases.Orders.UpdateStatus.UpdateOrderStatusUseCase>();
+        services.AddScoped<UseCases.Orders.UploadProof.IUploadOrderProofUseCase, UseCases.Orders.UploadProof.UploadOrderProofUseCase>();
+        services.AddScoped<UseCases.Orders.Evaluate.IEvaluateOrderUseCase, UseCases.Orders.Evaluate.EvaluateOrderUseCase>();
+        services.AddScoped<UseCases.Orders.GetCustomerOrders.IGetCustomerOrdersUseCase, UseCases.Orders.GetCustomerOrders.GetCustomerOrdersUseCase>();
+        services.AddScoped<UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase, UseCases.Orders.GetDriverOrders.GetDriverOrdersUseCase>();
     }
 }

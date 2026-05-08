@@ -1,8 +1,6 @@
 
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
-using System.Collections.Generic;
-using System.Linq;
 
 using LogisticsDeliveryManager.Domain.Entities.Base;
 
@@ -20,6 +18,8 @@ public class Order : EntityBase
     public bool IsPriority { get; private set; }
     public string? DeliveryProofImageBase64 { get; private set; }
     public Vehicle? AssignedVehicle { get; private set; }
+    public int? Rating { get; private set; }
+    public string? Feedback { get; private set; }
 
     protected Order() { }
 
@@ -53,6 +53,18 @@ public class Order : EntityBase
     public void UpdateStatus(OrderStatus status)
     {
         Status = status;
+    }
+
+    public void Evaluate(int rating, string? feedback)
+    {
+        if (Status != OrderStatus.Delivered)
+            throw new ErrorOnValidationException(["Only delivered orders can be evaluated."]);
+
+        if (rating < 1 || rating > 5)
+            throw new ErrorOnValidationException(["Rating must be between 1 and 5."]);
+
+        Rating = rating;
+        Feedback = feedback;
     }
 
     private static void Validate(Customer customer, Address destinationAddress, DateTime deliveryWindowStart, DateTime deliveryWindowEnd, double weight, double volume)

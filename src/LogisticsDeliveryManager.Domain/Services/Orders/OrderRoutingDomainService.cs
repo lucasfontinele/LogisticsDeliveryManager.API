@@ -17,16 +17,16 @@ public class OrderRoutingDomainService : IOrderRoutingDomainService
     {
         var candidates = availableVehicles
             .Where(v => v.IsReadyForOrders)
+            .Where(v => v.CurrentDriver != null)
+            .Where(v => !v.IsFullyLoaded)
             .Where(v => v.VolumeCapacity >= order.Volume)
             .Where(v => v.WeightCapacity >= order.Weight);
 
-        // Apply cargo specific constraints
         if (order.CargoType == CargoType.Medicine || order.CargoType == CargoType.Refrigerated)
         {
             candidates = candidates.Where(v => v.CompartmentType == CompartmentType.RefrigeratedBody);
         }
 
-        // Apply simple optimization: find the one that fits best (smallest available that fits)
         return candidates
             .OrderBy(v => v.VolumeCapacity)
             .ThenBy(v => v.WeightCapacity)

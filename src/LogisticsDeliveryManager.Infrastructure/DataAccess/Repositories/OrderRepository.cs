@@ -35,6 +35,14 @@ internal class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Order>> GetAllByDriverId(long driverId)
+    {
+        return await _dbContext.Orders
+            .Include(o => o.DestinationAddress)
+            .Where(o => o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriver != null && o.AssignedVehicle.CurrentDriver.Id == driverId)
+            .ToListAsync();
+    }
+
     public void Update(Order order)
     {
         _dbContext.Orders.Update(order);

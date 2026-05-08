@@ -1,7 +1,7 @@
-using LogisticsDeliveryManager.Communication.Enums;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
+using LogisticsDeliveryManager.Application.UseCases.Vehicles.AllocateDriver;
 using LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using Microsoft.AspNetCore.Mvc;
@@ -36,5 +36,18 @@ public class VehicleController : ControllerBase
         var response = mapper.Map<CreateVehicleResponseJson>(vehicle);
 
         return Created(string.Empty, response);
+    }
+
+    [HttpPut("{id}/allocate-driver")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> AllocateDriver(
+        [FromServices] IAllocateDriverToVehicleUseCase useCase,
+        [FromRoute] long id,
+        [FromBody] long driverId)
+    {
+        var command = new AllocateDriverToVehicleCommand(id, driverId);
+        await useCase.Execute(command);
+        return NoContent();
     }
 }
