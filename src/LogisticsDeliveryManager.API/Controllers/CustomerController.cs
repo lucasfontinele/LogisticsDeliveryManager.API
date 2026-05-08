@@ -19,6 +19,7 @@ public class CustomerController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateCustomer(
         [FromServices] ICreateCustomerUseCase useCase,
+        [FromServices] AutoMapper.IMapper mapper,
         [FromBody] CreateCustomerRequestJson request)
     {
         if (request is null)
@@ -38,22 +39,7 @@ public class CustomerController : ControllerBase
 
         var customer = await useCase.Execute(command);
 
-        var response = new CreateCustomerResponseJson
-        {
-            Id = customer.Id,
-            Name = customer.Name,
-            Document = customer.Document,
-            Addresses = customer.Addresses.Select(address => new AddressRequestJson
-            {
-                Street = address.Street,
-                City = address.City,
-                State = address.State,
-                PostalCode = address.PostalCode
-            }).ToList(),
-            CustomerType = (CustomerTypeJson)customer.CustomerType,
-            PhoneNumber = customer.PhoneNumber,
-            Email = customer.Email
-        };
+        var response = mapper.Map<CreateCustomerResponseJson>(customer);
 
         return Created(string.Empty, response);
     }

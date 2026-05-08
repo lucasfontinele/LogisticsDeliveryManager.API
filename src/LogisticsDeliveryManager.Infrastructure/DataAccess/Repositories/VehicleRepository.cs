@@ -18,6 +18,27 @@ namespace LogisticsDeliveryManager.Infrastructure.DataAccess.Repositories
             await _dbContext.AddAsync(vehicle);
         }
 
+        public async Task<Vehicle?> GetById(long id)
+        {
+            return await _dbContext.Vehicles.FirstOrDefaultAsync(v => v.Id == id);
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetAll()
+        {
+            return await _dbContext.Vehicles.ToListAsync();
+        }
+
+        public void Update(Vehicle vehicle)
+        {
+            _dbContext.Vehicles.Update(vehicle);
+        }
+
+        public void Delete(Vehicle vehicle)
+        {
+            vehicle.Deactivate();
+            _dbContext.Vehicles.Update(vehicle);
+        }
+
         public async Task<bool> ExistActiveVehicleWithLicensePlate(string licensePlate)
         {
             return await _dbContext.Vehicles.AnyAsync(v => v.LicensePlate == licensePlate);

@@ -18,6 +18,7 @@ public class VehicleController : ControllerBase
     [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> CreateVehicle(
         [FromServices] ICreateVehicleUseCase useCase,
+        [FromServices] AutoMapper.IMapper mapper,
         [FromBody] CreateVehicleRequestJson request)
     {
         if (request is null)
@@ -32,15 +33,7 @@ public class VehicleController : ControllerBase
 
         var vehicle = await useCase.Execute(command);
 
-        var response = new CreateVehicleResponseJson
-        {
-            Id = vehicle.Id,
-            LicensePlate = vehicle.LicensePlate,
-            Model = vehicle.Model,
-            WeightCapacity = vehicle.WeightCapacity,
-            VolumeCapacity = vehicle.VolumeCapacity,
-            CompartmentType = (CompartmentTypeJson)vehicle.CompartmentType
-        };
+        var response = mapper.Map<CreateVehicleResponseJson>(vehicle);
 
         return Created(string.Empty, response);
     }

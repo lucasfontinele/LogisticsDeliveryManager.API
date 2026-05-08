@@ -7,6 +7,8 @@ using LogisticsDeliveryManager.Infrastructure;
 using Microsoft.OpenApi.Models;
 using LogisticsDeliveryManager.API.Runners;
 
+using LogisticsDeliveryManager.Application;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -15,10 +17,11 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 });
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddScoped<ICreateCustomerUseCase, CreateCustomerUseCase>();
-builder.Services.AddScoped<ICreateVehicleUseCase, CreateVehicleUseCase>();
+builder.Services.AddApplication();
+
 builder.Services.AddScoped<ICustomerDomainService, CustomerDomainService>();
 builder.Services.AddScoped<IVehicleDomainService, VehicleDomainService>();
+builder.Services.AddScoped<LogisticsDeliveryManager.Domain.Services.Employees.IEmployeeDomainService, LogisticsDeliveryManager.Domain.Services.Employees.EmployeeDomainService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {

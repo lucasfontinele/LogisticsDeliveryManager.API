@@ -20,5 +20,10 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(LogisticsDeliveryManagerDbContext).Assembly);
+
+        // Global Query Filters for Soft Delete
+        modelBuilder.Entity<Customer>().HasQueryFilter(e => e.IsActive);
+        modelBuilder.Entity<Employee>().HasQueryFilter(e => e.IsActive);
+        modelBuilder.Entity<Vehicle>().HasQueryFilter(e => e.IsActive);
     }
 }

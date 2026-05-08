@@ -1,11 +1,12 @@
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
+using LogisticsDeliveryManager.Domain.Entities.Base;
+
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class Vehicle
+public class Vehicle : EntityBase
 {
-    public long Id { get; private set; }
     public string LicensePlate { get; private set; } = string.Empty;
     public string Model { get; private set; } = string.Empty;
     public double WeightCapacity { get; private set; }
