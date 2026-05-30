@@ -7,13 +7,12 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
 {
     public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Batch> Batches => Set<Batch>();
-    public DbSet<BatchOrder> BatchOrders => Set<BatchOrder>();
     public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Driver> Drivers => Set<Driver>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<Shipping> Shippings => Set<Shipping>();
-    public DbSet<ShippingStatuses> ShippingStatuses => Set<ShippingStatuses>();
+    public DbSet<DeliveryTrackingEvent> DeliveryTrackingEvents => Set<DeliveryTrackingEvent>();
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,6 +35,13 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
         modelBuilder.Entity<Employee>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Vehicle>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Batch>().HasQueryFilter(e => e.IsActive);
-        modelBuilder.Entity<BatchOrder>().HasQueryFilter(e => e.IsActive);
+
+        modelBuilder.Entity<Batch>().OwnsMany(b => b.BatchOrders, ownedNavBuilder =>
+        {
+            ownedNavBuilder.WithOwner().HasForeignKey("BatchId");
+            ownedNavBuilder.HasKey("BatchId", nameof(Batch.BatchOrder.OrderId));
+            ownedNavBuilder.Property(bo => bo.OrderId).IsRequired();
+            ownedNavBuilder.ToTable("BatchOrders");
+        });
     }
 }

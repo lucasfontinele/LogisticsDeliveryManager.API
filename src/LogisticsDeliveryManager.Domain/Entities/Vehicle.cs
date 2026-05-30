@@ -1,16 +1,16 @@
 using LogisticsDeliveryManager.Domain.Enums;
-using LogisticsDeliveryManager.Exception.ExceptionsBase;
-
 using LogisticsDeliveryManager.Domain.Entities.Base;
+using LogisticsDeliveryManager.Domain.ValueObjects;
+using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
 public class Vehicle : EntityBase
 {
-    public string LicensePlate { get; private set; } = string.Empty;
+    public LicensePlate LicensePlate { get; private set; }
     public string Model { get; private set; } = string.Empty;
-    public double WeightCapacity { get; private set; }
-    public double VolumeCapacity { get; private set; }
+    public Weight WeightCapacity { get; private set; }
+    public Volume VolumeCapacity { get; private set; }
     public CompartmentType CompartmentType { get; private set; }
     public bool IsReadyForOrders { get; private set; } = true;
     public bool IsFullyLoaded { get; private set; } = false;
@@ -35,10 +35,10 @@ public class Vehicle : EntityBase
     private Vehicle() { }
 
     public static Vehicle Register(
-        string licensePlate,
+        LicensePlate licensePlate,
         string model,
-        double weightCapacity,
-        double volumeCapacity,
+        Weight weightCapacity,
+        Volume volumeCapacity,
         CompartmentType compartmentType)
     {
         return new Vehicle(
@@ -49,7 +49,7 @@ public class Vehicle : EntityBase
             compartmentType);
     }
 
-    public Vehicle(string licensePlate, string model, double weightCapacity, double volumeCapacity, CompartmentType compartmentType)
+    public Vehicle(LicensePlate licensePlate, string model, Weight weightCapacity, Volume volumeCapacity, CompartmentType compartmentType)
     {
         Validate(licensePlate, model, weightCapacity, volumeCapacity, compartmentType);
 
@@ -61,25 +61,25 @@ public class Vehicle : EntityBase
     }
 
     private static void Validate(
-        string licensePlate,
+        LicensePlate licensePlate,
         string model,
-        double weightCapacity,
-        double volumeCapacity,
+        Weight weightCapacity,
+        Volume volumeCapacity,
         CompartmentType compartmentType)
     {
         var errors = new List<string>();
 
-        if (string.IsNullOrWhiteSpace(licensePlate))
-            errors.Add("License plate cannot be empty.");
+        if (licensePlate == null)
+            errors.Add("License plate is required.");
 
         if (string.IsNullOrWhiteSpace(model))
             errors.Add("Model cannot be empty.");
 
-        if (weightCapacity <= 0)
-            errors.Add("Weight capacity must be greater than zero.");
+        if (weightCapacity == null)
+            errors.Add("Weight capacity is required.");
 
-        if (volumeCapacity <= 0)
-            errors.Add("Volume capacity must be greater than zero.");
+        if (volumeCapacity == null)
+            errors.Add("Volume capacity is required.");
 
         if (!Enum.IsDefined(typeof(CompartmentType), compartmentType))
             errors.Add("Invalid compartment type.");

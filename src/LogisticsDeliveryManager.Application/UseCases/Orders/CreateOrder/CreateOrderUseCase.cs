@@ -1,10 +1,10 @@
 using LogisticsDeliveryManager.Domain.Entities;
+using LogisticsDeliveryManager.Domain.Factories;
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Customers;
 using LogisticsDeliveryManager.Domain.Repositories.Orders;
 using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Domain.Services.Orders;
-using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
@@ -15,6 +15,7 @@ public class CreateOrderUseCase : ICreateOrderUseCase
     private readonly ICustomerRepository _customerRepository;
     private readonly IVehicleRepository _vehicleRepository;
     private readonly IOrderRoutingDomainService _routingService;
+    private readonly OrderFactory _orderFactory;
     private readonly IUnitOfWork _unitOfWork;
 
     public CreateOrderUseCase(
@@ -22,12 +23,14 @@ public class CreateOrderUseCase : ICreateOrderUseCase
         ICustomerRepository customerRepository,
         IVehicleRepository vehicleRepository,
         IOrderRoutingDomainService routingService,
+        OrderFactory orderFactory,
         IUnitOfWork unitOfWork)
     {
         _orderRepository = orderRepository;
         _customerRepository = customerRepository;
         _vehicleRepository = vehicleRepository;
         _routingService = routingService;
+        _orderFactory = orderFactory;
         _unitOfWork = unitOfWork;
     }
 
@@ -37,19 +40,12 @@ public class CreateOrderUseCase : ICreateOrderUseCase
         if (customer is null)
             throw new ErrorOnValidationException(["Customer not found."]);
 
-        var sla = _routingService.CalculateSla(command.IsPriority);
-
-        var destinationAddress = new Address(
+        var order = _orderFactory.Create(
+            command.CustomerId,
             command.DestinationAddress.Street,
             command.DestinationAddress.City,
             command.DestinationAddress.State,
-            new PostalCode(command.DestinationAddress.PostalCode));
-
-        var order = new Order(
-            customer,
-            destinationAddress,
-            sla.Start,
-            sla.End,
+            command.DestinationAddress.PostalCode,
             command.CargoType,
             command.Weight,
             command.Volume,
@@ -60,7 +56,7 @@ public class CreateOrderUseCase : ICreateOrderUseCase
 
         if (bestVehicle is not null)
         {
-            order.AssignVehicle(bestVehicle);
+            order.AssignVehicle(bestVehicle.Id);
             // In a real scenario, we might want to update vehicle status if it becomes full
             // For now, we just link them
         }

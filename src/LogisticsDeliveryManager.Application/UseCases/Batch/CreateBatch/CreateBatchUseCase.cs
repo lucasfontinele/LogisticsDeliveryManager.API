@@ -39,8 +39,10 @@ public sealed class CreateBatchUseCase : ICreateBatchUseCase
 
         var batch = new DomainBatch(
             command.Type,
-            driver,
-            vehicle,
+            driver.Id,
+            vehicle.Id,
+            vehicle.WeightCapacity,
+            vehicle.VolumeCapacity,
             command.DeliveryDate);
 
         await _batchRepository.Add(batch);

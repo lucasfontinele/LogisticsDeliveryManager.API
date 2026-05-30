@@ -36,7 +36,9 @@ public sealed class AddOrderToBatchUseCase : IAddOrderToBatchUseCase
         if (order is null)
             throw new NotFoundException("Order not found.");
 
-        batch.AddOrder(order);
+        batch.AddOrder(order.Id, order.Weight, order.Volume);
+        order.AssignVehicle(batch.VehicleId);
+        _orderRepository.Update(order);
 
         await _unitOfWork.Commit();
     }

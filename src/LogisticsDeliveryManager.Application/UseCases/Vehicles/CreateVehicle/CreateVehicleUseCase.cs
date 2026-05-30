@@ -2,6 +2,7 @@ using LogisticsDeliveryManager.Domain.Entities;
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Domain.Services.Vehicles;
+using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.CreateVehicle;
@@ -29,10 +30,10 @@ public sealed class CreateVehicleUseCase : ICreateVehicleUseCase
         await _vehicleDomainService.ValidateUniqueLicensePlate(command.LicensePlate);
 
         var vehicle = Vehicle.Register(
-            command.LicensePlate,
+            new LicensePlate(command.LicensePlate),
             command.Model,
-            command.WeightCapacity,
-            command.VolumeCapacity,
+            new Weight(command.WeightCapacity),
+            new Volume(command.VolumeCapacity),
             command.CompartmentType);
 
         await _vehicleRepository.Add(vehicle);
