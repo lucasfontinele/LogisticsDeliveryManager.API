@@ -19,7 +19,21 @@ public class Batch : EntityBase
     public IReadOnlyCollection<Guid> OrderIds => _batchOrders.Select(bo => bo.OrderId).ToList().AsReadOnly();
     internal IReadOnlyCollection<BatchOrder> BatchOrders => _batchOrders.AsReadOnly();
 
-    internal sealed record BatchOrder(Guid OrderId, Weight Weight, Volume Volume);
+    internal sealed class BatchOrder
+    {
+        public Guid OrderId { get; private set; }
+        public Weight Weight { get; private set; }
+        public Volume Volume { get; private set; }
+
+        private BatchOrder() { }
+
+        public BatchOrder(Guid orderId, Weight weight, Volume volume)
+        {
+            OrderId = orderId;
+            Weight = weight;
+            Volume = volume;
+        }
+    }
 
     private Batch() { }
 

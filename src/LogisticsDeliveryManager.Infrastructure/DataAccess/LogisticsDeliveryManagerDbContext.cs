@@ -1,5 +1,6 @@
 using LogisticsDeliveryManager.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace LogisticsDeliveryManager.Infrastructure.DataAccess;
 
@@ -14,6 +15,12 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
     public DbSet<Shipping> Shippings => Set<Shipping>();
     public DbSet<DeliveryTrackingEvent> DeliveryTrackingEvents => Set<DeliveryTrackingEvent>();
     public DbSet<Vehicle> Vehicles => Set<Vehicle>();
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        base.OnConfiguring(optionsBuilder);
+        optionsBuilder.ConfigureWarnings(w => w.Ignore(RelationalEventId.PendingModelChangesWarning));
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -35,6 +42,14 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
         modelBuilder.Entity<Employee>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Vehicle>().HasQueryFilter(e => e.IsActive);
         modelBuilder.Entity<Batch>().HasQueryFilter(e => e.IsActive);
+
+        modelBuilder.Entity<Customer>().OwnsMany(c => c.Addresses, a =>
+        {
+            a.WithOwner().HasForeignKey("CustomerId");
+            a.Property<long>("Id").ValueGeneratedOnAdd();
+            a.HasKey("Id");
+            a.ToTable("Addresses");
+        });
 
         modelBuilder.Entity<Batch>().OwnsMany(b => b.BatchOrders, ownedNavBuilder =>
         {
