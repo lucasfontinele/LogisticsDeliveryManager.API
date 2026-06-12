@@ -9,7 +9,6 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
     public DbSet<Address> Addresses => Set<Address>();
     public DbSet<Batch> Batches => Set<Batch>();
     public DbSet<Customer> Customers => Set<Customer>();
-    public DbSet<Driver> Drivers => Set<Driver>();
     public DbSet<Employee> Employees => Set<Employee>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<Shipping> Shippings => Set<Shipping>();

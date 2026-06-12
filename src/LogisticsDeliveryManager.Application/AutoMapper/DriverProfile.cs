@@ -8,12 +8,14 @@ public class DriverProfile : Profile
 {
     public DriverProfile()
     {
-        CreateMap<Driver, CreateDriverResponseJson>()
-            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.Id))
+        CreateMap<Employee, CreateDriverResponseJson>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LicenseTypes, opt => opt.MapFrom(src => src.LicenseTypes.Select(l => (int)l)));
 
-        CreateMap<Driver, DriverResponseJson>()
-            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Employee.Id))
+        CreateMap<Employee, DriverResponseJson>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+            .ForMember(dest => dest.EmployeeId, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.LicenseTypes, opt => opt.MapFrom(src => src.LicenseTypes.Select(l => (int)l)));
     }
 }

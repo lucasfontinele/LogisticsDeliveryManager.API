@@ -30,9 +30,9 @@ public class DriverController : ControllerBase
             request.EmployeeId,
             request.LicenseTypes.Select(l => (DriverLicenseType)l).ToList());
 
-        var driver = await useCase.Execute(command);
+        var driverEmployee = await useCase.Execute(command);
 
-        var response = mapper.Map<CreateDriverResponseJson>(driver);
+        var response = mapper.Map<CreateDriverResponseJson>(driverEmployee);
 
         return Created(string.Empty, response);
     }

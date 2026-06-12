@@ -15,9 +15,9 @@ public class Vehicle : EntityBase
     public bool IsReadyForOrders { get; private set; } = true;
     public bool IsFullyLoaded { get; private set; } = false;
     public Guid? CurrentDriverId { get; private set; }
-    public Driver? CurrentDriver { get; private set; }
+    public Employee? CurrentDriver { get; private set; }
 
-    public void AllocateDriver(Driver driver) 
+    public void AllocateDriver(Employee driver) 
     {
         CurrentDriver = driver;
         CurrentDriverId = driver.Id;
