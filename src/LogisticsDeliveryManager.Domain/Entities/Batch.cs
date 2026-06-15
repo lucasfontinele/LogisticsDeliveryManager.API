@@ -1,5 +1,6 @@
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Entities.Base;
+using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
@@ -9,56 +10,72 @@ public class Batch : EntityBase
     private readonly List<BatchOrder> _batchOrders = new();
 
     public CargoType Type { get; private set; }
-    public Driver Driver { get; private set; }
-    public Vehicle Vehicle { get; private set; }
+    public Guid DriverId { get; private set; }
+    public Guid VehicleId { get; private set; }
+    public Weight VehicleWeightCapacity { get; private set; }
+    public Volume VehicleVolumeCapacity { get; private set; }
     public DateOnly DeliveryDate { get; private set; }
 
-    public IReadOnlyCollection<BatchOrder> BatchOrders => _batchOrders;
+    public IReadOnlyCollection<Guid> OrderIds => _batchOrders.Select(bo => bo.OrderId).ToList().AsReadOnly();
+    internal IReadOnlyCollection<BatchOrder> BatchOrders => _batchOrders.AsReadOnly();
+
+    internal sealed class BatchOrder
+    {
+        public Guid OrderId { get; private set; }
+        public Weight Weight { get; private set; }
+        public Volume Volume { get; private set; }
+
+        private BatchOrder() { }
+
+        public BatchOrder(Guid orderId, Weight weight, Volume volume)
+        {
+            OrderId = orderId;
+            Weight = weight;
+            Volume = volume;
+        }
+    }
 
     private Batch() { }
 
-    public Batch(CargoType type, Driver driver, Vehicle vehicle, DateOnly deliveryDate)
+    public Batch(CargoType type, Guid driverId, Guid vehicleId, Weight vehicleWeightCapacity, Volume vehicleVolumeCapacity, DateOnly deliveryDate)
     {
-        Validate(type, driver, vehicle, deliveryDate);
-        
+        Validate(type, driverId, vehicleId, vehicleWeightCapacity, vehicleVolumeCapacity, deliveryDate);
+
         Type = type;
-        Driver = driver;
-        Vehicle = vehicle;
+        DriverId = driverId;
+        VehicleId = vehicleId;
+        VehicleWeightCapacity = vehicleWeightCapacity;
+        VehicleVolumeCapacity = vehicleVolumeCapacity;
         DeliveryDate = deliveryDate;
     }
 
-    public void AddOrder(Order order)
+    public void AddOrder(Guid orderId, Weight orderWeight, Volume orderVolume)
     {
-        if (order is null)
-            throw new ErrorOnValidationException(["Order cannot be null."]);
+        if (orderId == Guid.Empty)
+            throw new ErrorOnValidationException(["Order id cannot be empty."]);
 
-        if (_batchOrders.Any(bo =>
-                (order.Id != Guid.Empty && bo.Order.Id == order.Id) ||
-                ReferenceEquals(bo.Order, order)))
-        {
+        if (_batchOrders.Any(bo => bo.OrderId == orderId))
             throw new ErrorOnValidationException(["Order is already in this batch."]);
-        }
 
-        var totalWeightAfterAdd = _batchOrders.Sum(bo => bo.Order.Weight) + order.Weight;
-        if (totalWeightAfterAdd > Vehicle.WeightCapacity)
+        var totalWeightAfterAdd = _batchOrders.Sum(bo => bo.Weight.Value) + orderWeight.Value;
+        if (totalWeightAfterAdd > VehicleWeightCapacity.Value)
         {
             throw new ErrorOnValidationException([
-                $"Batch weight capacity exceeded. Current: {_batchOrders.Sum(bo => bo.Order.Weight)}, " +
-                $"Adding: {order.Weight}, Capacity: {Vehicle.WeightCapacity}."
+                $"Batch weight capacity exceeded. Current: {_batchOrders.Sum(bo => bo.Weight.Value)}, " +
+                $"Adding: {orderWeight.Value}, Capacity: {VehicleWeightCapacity.Value}."
             ]);
         }
 
-        var totalVolumeAfterAdd = _batchOrders.Sum(bo => bo.Order.Volume) + order.Volume;
-        if (totalVolumeAfterAdd > Vehicle.VolumeCapacity)
+        var totalVolumeAfterAdd = _batchOrders.Sum(bo => bo.Volume.Value) + orderVolume.Value;
+        if (totalVolumeAfterAdd > VehicleVolumeCapacity.Value)
         {
             throw new ErrorOnValidationException([
-                $"Batch volume capacity exceeded. Current: {_batchOrders.Sum(bo => bo.Order.Volume)}, " +
-                $"Adding: {order.Volume}, Capacity: {Vehicle.VolumeCapacity}."
+                $"Batch volume capacity exceeded. Current: {_batchOrders.Sum(bo => bo.Volume.Value)}, " +
+                $"Adding: {orderVolume.Value}, Capacity: {VehicleVolumeCapacity.Value}."
             ]);
         }
 
-        order.AssignVehicle(Vehicle);
-        _batchOrders.Add(new BatchOrder(this, order));
+        _batchOrders.Add(new BatchOrder(orderId, orderWeight, orderVolume));
     }
 
     public void ChangeDeliveryDate(DateOnly deliveryDate)
@@ -69,18 +86,18 @@ public class Batch : EntityBase
         DeliveryDate = deliveryDate;
     }
 
-    private static void Validate(CargoType type, Driver driver, Vehicle vehicle, DateOnly deliveryDate)
+    private static void Validate(CargoType type, Guid driverId, Guid vehicleId, Weight vehicleWeightCapacity, Volume vehicleVolumeCapacity, DateOnly deliveryDate)
     {
         var errors = new List<string>();
 
-         if (!Enum.IsDefined(typeof(CargoType), type))
+        if (!Enum.IsDefined(typeof(CargoType), type))
             errors.Add("Invalid cargo type.");
 
-        if (driver == null)
-            errors.Add("Driver cannot be null.");
+        if (driverId == Guid.Empty)
+            errors.Add("Driver id cannot be empty.");
 
-        if (vehicle == null)
-            errors.Add("Vehicle cannot be null.");
+        if (vehicleId == Guid.Empty)
+            errors.Add("Vehicle id cannot be empty.");
 
         if (deliveryDate < DateOnly.FromDateTime(DateTime.UtcNow))
             errors.Add("Delivery date cannot be in the past.");

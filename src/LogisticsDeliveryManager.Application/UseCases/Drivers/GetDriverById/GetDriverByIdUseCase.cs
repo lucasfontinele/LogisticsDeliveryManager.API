@@ -1,24 +1,26 @@
 using LogisticsDeliveryManager.Domain.Entities;
-using LogisticsDeliveryManager.Domain.Repositories.Drivers;
+using LogisticsDeliveryManager.Domain.Repositories.Employees;
 
 namespace LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
 
 public interface IGetDriverByIdUseCase
 {
-    Task<Driver?> Execute(Guid id);
+    Task<Employee?> Execute(Guid id);
 }
 
 public class GetDriverByIdUseCase : IGetDriverByIdUseCase
 {
-    private readonly IDriverRepository _repository;
+    private readonly IEmployeeRepository _repository;
 
-    public GetDriverByIdUseCase(IDriverRepository repository)
+    public GetDriverByIdUseCase(IEmployeeRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<Driver?> Execute(Guid id)
+    public async Task<Employee?> Execute(Guid id)
     {
-        return await _repository.GetById(id);
+        var employee = await _repository.GetById(id);
+        if (employee is null) return null;
+        return employee.RoleType == Domain.Enums.RoleType.Driver ? employee : null;
     }
 }

@@ -15,6 +15,8 @@ using LogisticsDeliveryManager.Application.UseCases.Employees.GetEmployeeById;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.GetAllDrivers;
 using LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
 using LogisticsDeliveryManager.Application.UseCases.Orders.AssignVehicle;
+using LogisticsDeliveryManager.Domain.Factories;
+using LogisticsDeliveryManager.Domain.Services.Drivers;
 using LogisticsDeliveryManager.Domain.Services.Orders;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -64,5 +66,9 @@ public static class DependencyInjection
         services.AddScoped<IGetAllBatchesUseCase, GetAllBatchesUseCase>();
         services.AddScoped<IGetBatchByIdUseCase, GetBatchByIdUseCase>();
         services.AddScoped<IOrderRoutingDomainService, OrderRoutingDomainService>();
+        services.AddScoped<IDeliveryPromiseService, DeliveryPromiseService>();
+        services.AddScoped<ICargoCompatibilityPolicy, CargoCompatibilityPolicy>();
+        services.AddScoped<IDriverJourneyPolicy, DriverJourneyPolicy>();
+        services.AddScoped<OrderFactory>();
     }
 }

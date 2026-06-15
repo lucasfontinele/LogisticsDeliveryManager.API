@@ -1,5 +1,5 @@
 using LogisticsDeliveryManager.Domain.Repositories;
-using LogisticsDeliveryManager.Domain.Repositories.Drivers;
+using LogisticsDeliveryManager.Domain.Repositories.Employees;
 using LogisticsDeliveryManager.Domain.Repositories.Vehicles;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
@@ -8,10 +8,10 @@ namespace LogisticsDeliveryManager.Application.UseCases.Vehicles.AllocateDriver;
 public class AllocateDriverToVehicleUseCase : IAllocateDriverToVehicleUseCase
 {
     private readonly IVehicleRepository _vehicleRepository;
-    private readonly IDriverRepository _driverRepository;
+    private readonly IEmployeeRepository _driverRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AllocateDriverToVehicleUseCase(IVehicleRepository vehicleRepository, IDriverRepository driverRepository, IUnitOfWork unitOfWork)
+    public AllocateDriverToVehicleUseCase(IVehicleRepository vehicleRepository, IEmployeeRepository driverRepository, IUnitOfWork unitOfWork)
     {
         _vehicleRepository = vehicleRepository;
         _driverRepository = driverRepository;
@@ -25,7 +25,7 @@ public class AllocateDriverToVehicleUseCase : IAllocateDriverToVehicleUseCase
             throw new ErrorOnValidationException(["Vehicle not found."]);
 
         var driver = await _driverRepository.GetById(command.DriverId);
-        if (driver is null)
+        if (driver is null || driver.RoleType != Domain.Enums.RoleType.Driver)
             throw new ErrorOnValidationException(["Driver not found."]);
 
         vehicle.AllocateDriver(driver);
