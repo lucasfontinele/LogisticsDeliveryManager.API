@@ -57,5 +57,10 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
             ownedNavBuilder.Property(bo => bo.OrderId).IsRequired();
             ownedNavBuilder.ToTable("BatchOrders");
         });
+
+        // Configure LicenseTypes as PostgreSQL array
+        modelBuilder.Entity<Employee>()
+            .Property(e => e.LicenseTypes)
+            .HasColumnType("integer[]");
     }
 }
