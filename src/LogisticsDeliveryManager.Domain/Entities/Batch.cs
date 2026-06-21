@@ -12,8 +12,8 @@ public class Batch : EntityBase
     public CargoType Type { get; private set; }
     public Guid DriverId { get; private set; }
     public Guid VehicleId { get; private set; }
-    public Weight VehicleWeightCapacity { get; private set; }
-    public Volume VehicleVolumeCapacity { get; private set; }
+    public Weight VehicleWeightCapacity { get; private set; } = null!;
+    public Volume VehicleVolumeCapacity { get; private set; } = null!;
     public DateOnly DeliveryDate { get; private set; }
 
     public IReadOnlyCollection<Guid> OrderIds => _batchOrders.Select(bo => bo.OrderId).ToList().AsReadOnly();
@@ -22,8 +22,8 @@ public class Batch : EntityBase
     internal sealed class BatchOrder
     {
         public Guid OrderId { get; private set; }
-        public Weight Weight { get; private set; }
-        public Volume Volume { get; private set; }
+        public Weight Weight { get; private set; } = null!;
+        public Volume Volume { get; private set; } = null!;
 
         private BatchOrder() { }
 

@@ -7,10 +7,10 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 
 public class Vehicle : EntityBase
 {
-    public LicensePlate LicensePlate { get; private set; }
+    public LicensePlate LicensePlate { get; private set; } = null!;
     public string Model { get; private set; } = string.Empty;
-    public Weight WeightCapacity { get; private set; }
-    public Volume VolumeCapacity { get; private set; }
+    public Weight WeightCapacity { get; private set; } = null!;
+    public Volume VolumeCapacity { get; private set; } = null!;
     public CompartmentType CompartmentType { get; private set; }
     public bool IsReadyForOrders { get; private set; } = true;
     public bool IsFullyLoaded { get; private set; } = false;

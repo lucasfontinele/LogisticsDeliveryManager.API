@@ -9,11 +9,11 @@ public class Order : EntityBase
 {
     public Guid CustomerId { get; private set; }
     public OrderStatus Status { get; private set; }
-    public Address DestinationAddress { get; private set; }
-    public DeliveryWindow DeliveryWindow { get; private set; }
+    public Address DestinationAddress { get; private set; } = null!;
+    public DeliveryWindow DeliveryWindow { get; private set; } = null!;
     public CargoType CargoType { get; private set; }
-    public Weight Weight { get; private set; }
-    public Volume Volume { get; private set; }
+    public Weight Weight { get; private set; } = null!;
+    public Volume Volume { get; private set; } = null!;
     public bool IsPriority { get; private set; }
     public string? DeliveryProofImageBase64 { get; private set; }
     public Guid? AssignedVehicleId { get; private set; }
