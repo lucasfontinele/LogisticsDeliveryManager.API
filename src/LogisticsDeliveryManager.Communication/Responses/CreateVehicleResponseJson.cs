@@ -5,10 +5,10 @@ namespace LogisticsDeliveryManager.Communication.Responses
     public class CreateVehicleResponseJson
     {
         public Guid Id { get; set; }
-        public string LicensePlate { get; set; }
-        public string Model { get; set; }
-        public double WeightCapacity { get; set; }
-        public double VolumeCapacity { get; set; }
-        public CompartmentTypeJson CompartmentType { get; set; }
+        public required string LicensePlate { get; set; }
+        public required string Model { get; set; }
+        public required double WeightCapacity { get; set; }
+        public required double VolumeCapacity { get; set; }
+        public required CompartmentTypeJson CompartmentType { get; set; }
     }
 }

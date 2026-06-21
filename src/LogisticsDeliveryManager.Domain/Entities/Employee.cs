@@ -20,18 +20,15 @@ public class Employee : Person
         RoleType = roleType;
     }
 
-    public void RegisterAsDriver(IEnumerable<DriverLicenseType> licenseTypes)
+    public void RegisterAsDriver(IEnumerable<DriverLicenseType>? licenseTypes)
     {
-        var errors = new List<string>();
+        var licenseTypesList = licenseTypes?.ToList() ?? [];
 
-        if (licenseTypes == null || !licenseTypes.Any())
-            errors.Add("At least one driver license type must be provided.");
-
-        if (errors.Any())
-            throw new ErrorOnValidationException(errors);
+        if (licenseTypesList.Count == 0)
+            throw new ErrorOnValidationException(["At least one driver license type must be provided."]);
 
         RoleType = RoleType.Driver;
-        LicenseTypes = licenseTypes.ToList();
+        LicenseTypes = licenseTypesList;
     }
 
     private static void Validate(RoleType roleType)

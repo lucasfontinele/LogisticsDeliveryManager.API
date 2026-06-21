@@ -8,7 +8,7 @@ namespace LogisticsDeliveryManager.Domain.ValueObjects;
 [ComplexType]
 public record PostalCode 
 {
-    public string Code { get; init; }
+    public string Code { get; init; } = string.Empty;
 
     protected PostalCode() { }
 

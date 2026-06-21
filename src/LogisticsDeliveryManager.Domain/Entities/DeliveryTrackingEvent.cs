@@ -6,7 +6,7 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 
 public class DeliveryTrackingEvent : EntityBase
 {
-    public Shipping Shipping { get; private set; }
+    public Shipping Shipping { get; private set; } = null!;
     public DateOnly EstimatedDeliveryDate { get; private set; }
     public OrderStatus Status { get; private set; }
 

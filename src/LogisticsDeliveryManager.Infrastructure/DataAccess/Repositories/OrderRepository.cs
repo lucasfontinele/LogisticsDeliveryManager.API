@@ -21,14 +21,12 @@ internal class OrderRepository : IOrderRepository
     public async Task<Order?> GetById(Guid id)
     {
         return await _dbContext.Orders
-            .Include(o => o.DestinationAddress)
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
     public async Task<IEnumerable<Order>> GetAll()
     {
         return await _dbContext.Orders
-            .Include(o => o.DestinationAddress)
             .AsNoTracking()
             .ToListAsync();
     }
@@ -36,7 +34,6 @@ internal class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAllByCustomerId(Guid customerId)
     {
         return await _dbContext.Orders
-            .Include(o => o.DestinationAddress)
             .Where(o => o.CustomerId == customerId)
             .ToListAsync();
     }
@@ -54,7 +51,6 @@ internal class OrderRepository : IOrderRepository
             .ToListAsync();
 
         return await _dbContext.Orders
-            .Include(o => o.DestinationAddress)
             .Where(o => orderIdsFromBatches.Contains(o.Id) || (o.AssignedVehicleId != null && vehicleIdsForDriver.Contains(o.AssignedVehicleId.Value)))
             .ToListAsync();
     }

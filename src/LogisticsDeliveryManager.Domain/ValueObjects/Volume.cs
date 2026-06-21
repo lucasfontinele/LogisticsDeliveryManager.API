@@ -9,7 +9,7 @@ public sealed record Volume
 {
     public double Value { get; init; }
 
-    protected Volume() { }
+    private Volume() { }
 
     public Volume(double value)
     {

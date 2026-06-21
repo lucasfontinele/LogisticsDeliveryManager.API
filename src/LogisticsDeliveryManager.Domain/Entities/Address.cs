@@ -1,5 +1,6 @@
 using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
+using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
@@ -7,13 +8,15 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 [ComplexType]
 public sealed record Address
 {
-    public string Street { get; init; }
-    public string City { get; init; }
-    public string State { get; init; }
-    public PostalCode PostalCode { get; init; }
+    public required string Street { get; init; } = string.Empty;
+    public required string City { get; init; } = string.Empty;
+    public required string State { get; init; } = string.Empty;
+    public required PostalCode PostalCode { get; init; } = null!;
 
-    protected Address() { }
+    [SetsRequiredMembers]
+    private Address() { }
 
+    [SetsRequiredMembers]
     public Address(string street, string city, string state, PostalCode postalCode)
     {
         Validate(street, city, state, postalCode);

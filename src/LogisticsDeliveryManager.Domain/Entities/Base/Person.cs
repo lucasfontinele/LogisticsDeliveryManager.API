@@ -5,10 +5,10 @@ namespace LogisticsDeliveryManager.Domain.Entities.Base;
 
 public abstract class Person : EntityBase
 {
-    public string Name { get; private set; }
-    public string Document { get; private set; }
-    public string PhoneNumber { get; private set; }
-    public Email Email { get; private set; }
+    public string Name { get; private set; } = string.Empty;
+    public string Document { get; private set; } = string.Empty;
+    public string PhoneNumber { get; private set; } = string.Empty;
+    public Email Email { get; private set; } = null!;
 
     protected Person() { }
 
