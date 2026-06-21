@@ -8,7 +8,7 @@ namespace LogisticsDeliveryManager.Domain.ValueObjects;
 [ComplexType]
 public record Email
 {
-    public string Address { get; init; }
+    public string Address { get; init; } = string.Empty;
 
     protected Email() { }
 

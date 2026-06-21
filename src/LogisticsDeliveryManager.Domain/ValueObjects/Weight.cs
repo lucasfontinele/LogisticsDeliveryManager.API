@@ -9,7 +9,7 @@ public sealed record Weight
 {
     public double Value { get; init; }
 
-    protected Weight() { }
+    private Weight() { }
 
     public Weight(double value)
     {

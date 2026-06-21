@@ -9,7 +9,7 @@ public sealed record DeliveryWindow
     public DateTime Start { get; init; }
     public DateTime End { get; init; }
 
-    protected DeliveryWindow() { }
+    private DeliveryWindow() { }
 
     public DeliveryWindow(DateTime start, DateTime end)
     {

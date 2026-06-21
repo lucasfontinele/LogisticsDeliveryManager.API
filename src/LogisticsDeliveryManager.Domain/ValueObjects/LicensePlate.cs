@@ -7,9 +7,9 @@ namespace LogisticsDeliveryManager.Domain.ValueObjects;
 [ComplexType]
 public sealed record LicensePlate
 {
-    public string Value { get; init; }
+    public string Value { get; init; } = string.Empty;
 
-    protected LicensePlate() { }
+    private LicensePlate() { }
 
     public LicensePlate(string value)
     {
