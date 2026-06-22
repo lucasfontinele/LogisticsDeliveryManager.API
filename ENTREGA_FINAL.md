@@ -455,6 +455,12 @@ O projeto segue a arquitetura em camadas limpa (Clean Architecture):
 
 ## 18. Diagrama do modelo de domínio
 
+### Diagrama original do domínio
+
+![Diagrama do dominio](DIAGRAMA%20DE%20DOMINIO.png)
+
+### Diagrama de classes atualizado
+
 ```mermaid
 classDiagram
     class Order {
