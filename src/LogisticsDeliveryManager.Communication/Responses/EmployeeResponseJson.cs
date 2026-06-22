@@ -7,4 +7,5 @@ public class EmployeeResponseJson
     public string Document { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public int RoleType { get; set; }
+    public IEnumerable<int> LicenseTypes { get; set; } = [];
 }

@@ -1,7 +1,8 @@
 using LogisticsDeliveryManager.Domain.Entities;
+using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Repositories.Employees;
 
-namespace LogisticsDeliveryManager.Application.UseCases.Drivers.GetDriverById;
+namespace LogisticsDeliveryManager.Application.UseCases.Employees.GetDriverById;
 
 public interface IGetDriverByIdUseCase
 {
@@ -20,7 +21,9 @@ public class GetDriverByIdUseCase : IGetDriverByIdUseCase
     public async Task<Employee?> Execute(Guid id)
     {
         var employee = await _repository.GetById(id);
-        if (employee is null) return null;
-        return employee.RoleType == Domain.Enums.RoleType.Driver ? employee : null;
+        if (employee is null)
+            return null;
+
+        return employee.RoleType == RoleType.Driver ? employee : null;
     }
 }
