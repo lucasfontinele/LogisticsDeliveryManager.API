@@ -36,7 +36,7 @@ public class AssignOrderToVehicleUseCase : IAssignOrderToVehicleUseCase
         if (vehicle is null)
             throw new NotFoundException("Vehicle not found.");
 
-        order.AssignVehicle(vehicle);
+        order.AssignVehicle(vehicleId);
 
         _orderRepository.Update(order);
         await _unitOfWork.Commit();

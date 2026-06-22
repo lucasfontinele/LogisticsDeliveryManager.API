@@ -3,6 +3,7 @@ using LogisticsDeliveryManager.Application.UseCases.Orders.CreateOrder;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
+using LogisticsDeliveryManager.Domain.Repositories.Employees;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
 using LogisticsDeliveryManager.Application.UseCases.Orders.GetAllOrders;
 using LogisticsDeliveryManager.Application.UseCases.Orders.GetOrderById;
@@ -98,14 +99,14 @@ public class OrderController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<OrderResponseJson>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetEmployeeOrders(
         [FromServices] LogisticsDeliveryManager.Application.UseCases.Orders.GetDriverOrders.IGetDriverOrdersUseCase useCase,
-        [FromServices] LogisticsDeliveryManager.Domain.Repositories.Drivers.IDriverRepository driverRepository,
+        [FromServices] IEmployeeRepository employeeRepository,
         [FromServices] IMapper mapper,
         [FromRoute] Guid employeeId)
     {
-        var driver = await driverRepository.GetByEmployeeId(employeeId);
-        if (driver == null) return Ok(Enumerable.Empty<OrderResponseJson>());
-        
-        var orders = await useCase.Execute(driver.Id);
+        var employee = await employeeRepository.GetById(employeeId);
+        if (employee == null || employee.RoleType != Domain.Enums.RoleType.Driver) return Ok(Enumerable.Empty<OrderResponseJson>());
+
+        var orders = await useCase.Execute(employee.Id);
         var response = mapper.Map<IEnumerable<OrderResponseJson>>(orders);
         return Ok(response);
     }

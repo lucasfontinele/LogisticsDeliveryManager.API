@@ -1,3 +1,4 @@
+using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Repositories;
 using LogisticsDeliveryManager.Domain.Repositories.Orders;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
@@ -21,7 +22,17 @@ public class UpdateOrderStatusUseCase : IUpdateOrderStatusUseCase
         if (order is null)
             throw new ErrorOnValidationException(["Order not found."]);
 
-        order.UpdateStatus(command.NewStatus);
+        switch (command.NewStatus)
+        {
+            case OrderStatus.Delivered:
+                order.ConfirmDelivery();
+                break;
+            case OrderStatus.Cancelled:
+                order.CancelOrder();
+                break;
+            default:
+                throw new ErrorOnValidationException(new List<string> { "Status transition must use a domain-specific action." });
+        }
 
         _orderRepository.Update(order);
         await _unitOfWork.Commit();

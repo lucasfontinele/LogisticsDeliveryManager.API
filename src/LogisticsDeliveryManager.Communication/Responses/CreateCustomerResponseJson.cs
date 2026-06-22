@@ -6,11 +6,11 @@ namespace LogisticsDeliveryManager.Communication.Responses
     public class CreateCustomerResponseJson
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Document { get; set; }
-        public List<AddressRequestJson> Addresses { get; set; }
+        public required string Name { get; set; }
+        public required string Document { get; set; }
+        public required List<AddressRequestJson> Addresses { get; set; }
         public CustomerTypeJson CustomerType { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        public required string PhoneNumber { get; set; }
+        public required string Email { get; set; }
     }
 }

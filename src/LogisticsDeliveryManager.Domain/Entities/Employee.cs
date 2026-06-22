@@ -8,6 +8,7 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 public class Employee : Person
 {
     public RoleType RoleType { get; private set; }
+    public IEnumerable<DriverLicenseType> LicenseTypes { get; private set; } = Array.Empty<DriverLicenseType>();
 
     private Employee() { }
 
@@ -17,6 +18,17 @@ public class Employee : Person
         Validate(roleType);
         
         RoleType = roleType;
+    }
+
+    public void RegisterAsDriver(IEnumerable<DriverLicenseType>? licenseTypes)
+    {
+        var licenseTypesList = licenseTypes?.ToList() ?? [];
+
+        if (licenseTypesList.Count == 0)
+            throw new ErrorOnValidationException(["At least one driver license type must be provided."]);
+
+        RoleType = RoleType.Driver;
+        LicenseTypes = licenseTypesList;
     }
 
     private static void Validate(RoleType roleType)

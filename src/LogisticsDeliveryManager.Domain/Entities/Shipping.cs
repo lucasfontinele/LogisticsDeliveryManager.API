@@ -5,8 +5,8 @@ namespace LogisticsDeliveryManager.Domain.Entities;
 
 public class Shipping : EntityBase
 {
-    public Order Order { get; private set; }
-    public string Address { get; private set; }
+    public Order Order { get; private set; } = null!;
+    public string Address { get; private set; } = string.Empty;
     public DateOnly EstimatedDeliveryDate { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 

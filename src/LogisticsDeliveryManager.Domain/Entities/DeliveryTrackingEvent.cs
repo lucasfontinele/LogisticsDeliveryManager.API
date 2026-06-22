@@ -4,15 +4,15 @@ using LogisticsDeliveryManager.Exception.ExceptionsBase;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class ShippingStatuses : EntityBase
+public class DeliveryTrackingEvent : EntityBase
 {
-    public Shipping Shipping { get; private set; }
+    public Shipping Shipping { get; private set; } = null!;
     public DateOnly EstimatedDeliveryDate { get; private set; }
     public OrderStatus Status { get; private set; }
 
-    private ShippingStatuses() { }
+    private DeliveryTrackingEvent() { }
 
-    public ShippingStatuses(Shipping shipping, DateOnly estimatedDeliveryDate, OrderStatus status)
+    public DeliveryTrackingEvent(Shipping shipping, DateOnly estimatedDeliveryDate, OrderStatus status)
     {
         Validate(shipping, estimatedDeliveryDate, status);
         Shipping = shipping;

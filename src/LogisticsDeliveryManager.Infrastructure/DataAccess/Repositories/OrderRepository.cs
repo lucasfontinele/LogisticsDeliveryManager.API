@@ -21,18 +21,12 @@ internal class OrderRepository : IOrderRepository
     public async Task<Order?> GetById(Guid id)
     {
         return await _dbContext.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.DestinationAddress)
-            .Include(o => o.AssignedVehicle)
             .FirstOrDefaultAsync(o => o.Id == id);
     }
 
     public async Task<IEnumerable<Order>> GetAll()
     {
         return await _dbContext.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.DestinationAddress)
-            .Include(o => o.AssignedVehicle)
             .AsNoTracking()
             .ToListAsync();
     }
@@ -40,26 +34,24 @@ internal class OrderRepository : IOrderRepository
     public async Task<IEnumerable<Order>> GetAllByCustomerId(Guid customerId)
     {
         return await _dbContext.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.DestinationAddress)
-            .Include(o => o.AssignedVehicle)
-            .Where(o => o.Customer.Id == customerId)
+            .Where(o => o.CustomerId == customerId)
             .ToListAsync();
     }
 
     public async Task<IEnumerable<Order>> GetAllByDriverId(Guid driverId)
     {
-        // Get order IDs from batches belonging to this driver
-        var orderIdsFromBatches = await _dbContext.BatchOrders
-            .Where(bo => bo.Batch.Driver.Id == driverId)
-            .Select(bo => bo.Order.Id)
+        var vehicleIdsForDriver = await _dbContext.Vehicles
+            .Where(v => v.CurrentDriverId == driverId)
+            .Select(v => v.Id)
+            .ToListAsync();
+
+        var orderIdsFromBatches = await _dbContext.Batches
+            .Where(b => b.DriverId == driverId)
+            .SelectMany(b => b.BatchOrders.Select(bo => bo.OrderId))
             .ToListAsync();
 
         return await _dbContext.Orders
-            .Include(o => o.Customer)
-            .Include(o => o.DestinationAddress)
-            .Include(o => o.AssignedVehicle)
-            .Where(o => orderIdsFromBatches.Contains(o.Id) || (o.AssignedVehicle != null && o.AssignedVehicle.CurrentDriverId == driverId))
+            .Where(o => orderIdsFromBatches.Contains(o.Id) || (o.AssignedVehicleId != null && vehicleIdsForDriver.Contains(o.AssignedVehicleId.Value)))
             .ToListAsync();
     }
 

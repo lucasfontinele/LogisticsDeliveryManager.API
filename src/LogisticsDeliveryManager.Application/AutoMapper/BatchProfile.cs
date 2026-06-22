@@ -20,11 +20,14 @@ public class BatchProfile : Profile
                 src.DeliveryDate));
 
         CreateMap<DomainBatch, CreateBatchResponseJson>()
-            .ForMember(dest => dest.DriverId, opt => opt.MapFrom(src => src.Driver.Id))
-            .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.Vehicle.Id))
+            .ForMember(dest => dest.DriverId, opt => opt.MapFrom(src => src.DriverId))
+            .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleId))
             .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (Communication.Enums.CargoTypeJson)src.Type));
 
         CreateMap<DomainBatch, BatchResponseJson>()
-            .ForMember(dest => dest.Orders, opt => opt.MapFrom(src => src.BatchOrders.Select(bo => bo.Order)));
+            .ForMember(dest => dest.DriverId, opt => opt.MapFrom(src => src.DriverId))
+            .ForMember(dest => dest.VehicleId, opt => opt.MapFrom(src => src.VehicleId))
+            .ForMember(dest => dest.Type, opt => opt.MapFrom(src => (Communication.Enums.CargoTypeJson)src.Type))
+            .ForMember(dest => dest.OrderIds, opt => opt.MapFrom(src => src.OrderIds));
     }
 }

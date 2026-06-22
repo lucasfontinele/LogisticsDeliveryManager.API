@@ -1,7 +1,10 @@
 using AutoMapper;
 using LogisticsDeliveryManager.Application.UseCases.Employees.CreateEmployee;
+using LogisticsDeliveryManager.Application.UseCases.Employees.GetAllDrivers;
 using LogisticsDeliveryManager.Application.UseCases.Employees.GetAllEmployees;
+using LogisticsDeliveryManager.Application.UseCases.Employees.GetDriverById;
 using LogisticsDeliveryManager.Application.UseCases.Employees.GetEmployeeById;
+using LogisticsDeliveryManager.Application.UseCases.Employees.RegisterAsDriver;
 using LogisticsDeliveryManager.Communication.Requests;
 using LogisticsDeliveryManager.Communication.Responses;
 using LogisticsDeliveryManager.Domain.Enums;
@@ -40,6 +43,29 @@ public class EmployeeController : ControllerBase
         return Created(string.Empty, response);
     }
 
+    [HttpPost("{id}/driver-profile")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(EmployeeResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponseJson), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RegisterAsDriver(
+        [FromRoute] Guid id,
+        [FromServices] IRegisterEmployeeAsDriverUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromBody] RegisterEmployeeAsDriverRequestJson request)
+    {
+        if (request is null)
+            throw new ErrorOnValidationException(["Request cannot be null."]);
+
+        var command = new RegisterEmployeeAsDriverCommand(
+            id,
+            request.LicenseTypes.Select(licenseType => (DriverLicenseType)licenseType).ToList());
+
+        var employee = await useCase.Execute(command);
+        var response = mapper.Map<EmployeeResponseJson>(employee);
+
+        return Ok(response);
+    }
+
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<EmployeeResponseJson>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllEmployees(
@@ -48,6 +74,17 @@ public class EmployeeController : ControllerBase
     {
         var employees = await useCase.Execute();
         var response = mapper.Map<IEnumerable<EmployeeResponseJson>>(employees);
+        return Ok(response);
+    }
+
+    [HttpGet("drivers")]
+    [ProducesResponseType(typeof(IEnumerable<EmployeeResponseJson>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllDrivers(
+        [FromServices] IGetAllDriversUseCase useCase,
+        [FromServices] IMapper mapper)
+    {
+        var drivers = await useCase.Execute();
+        var response = mapper.Map<IEnumerable<EmployeeResponseJson>>(drivers);
         return Ok(response);
     }
 
@@ -62,6 +99,21 @@ public class EmployeeController : ControllerBase
         var employee = await useCase.Execute(id);
         if (employee is null) return NotFound();
         var response = mapper.Map<EmployeeResponseJson>(employee);
+        return Ok(response);
+    }
+
+    [HttpGet("drivers/{id}")]
+    [ProducesResponseType(typeof(EmployeeResponseJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetDriverById(
+        [FromServices] IGetDriverByIdUseCase useCase,
+        [FromServices] IMapper mapper,
+        [FromRoute] Guid id)
+    {
+        var driver = await useCase.Execute(id);
+        if (driver is null) return NotFound();
+
+        var response = mapper.Map<EmployeeResponseJson>(driver);
         return Ok(response);
     }
 }

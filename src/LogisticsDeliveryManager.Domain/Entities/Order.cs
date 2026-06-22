@@ -1,36 +1,34 @@
 
 using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
-
 using LogisticsDeliveryManager.Domain.Entities.Base;
+using LogisticsDeliveryManager.Domain.ValueObjects;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 public class Order : EntityBase
 {
-    public Customer Customer { get; private set; }
+    public Guid CustomerId { get; private set; }
     public OrderStatus Status { get; private set; }
-    public Address DestinationAddress { get; private set; }
-    public DateTime DeliveryWindowStart { get; private set; }
-    public DateTime DeliveryWindowEnd { get; private set; }
+    public Address DestinationAddress { get; private set; } = null!;
+    public DeliveryWindow DeliveryWindow { get; private set; } = null!;
     public CargoType CargoType { get; private set; }
-    public double Weight { get; private set; }
-    public double Volume { get; private set; }
+    public Weight Weight { get; private set; } = null!;
+    public Volume Volume { get; private set; } = null!;
     public bool IsPriority { get; private set; }
     public string? DeliveryProofImageBase64 { get; private set; }
-    public Vehicle? AssignedVehicle { get; private set; }
+    public Guid? AssignedVehicleId { get; private set; }
     public int? Rating { get; private set; }
     public string? Feedback { get; private set; }
 
     protected Order() { }
 
-    public Order(Customer customer, Address destinationAddress, DateTime deliveryWindowStart, DateTime deliveryWindowEnd, CargoType cargoType, double weight, double volume, bool isPriority)
+    public Order(Guid customerId, Address destinationAddress, DeliveryWindow deliveryWindow, CargoType cargoType, Weight weight, Volume volume, bool isPriority)
     {
-        Validate(customer, destinationAddress, deliveryWindowStart, deliveryWindowEnd, weight, volume);
-        
-        Customer = customer;
+        Validate(customerId, destinationAddress, deliveryWindow, weight, volume);
+
+        CustomerId = customerId;
         DestinationAddress = destinationAddress;
-        DeliveryWindowStart = deliveryWindowStart;
-        DeliveryWindowEnd = deliveryWindowEnd;
+        DeliveryWindow = deliveryWindow;
         CargoType = cargoType;
         Weight = weight;
         Volume = volume;
@@ -38,9 +36,9 @@ public class Order : EntityBase
         Status = OrderStatus.Pending;
     }
 
-    public void AssignVehicle(Vehicle vehicle)
+    public void AssignVehicle(Guid vehicleId)
     {
-        AssignedVehicle = vehicle;
+        AssignedVehicleId = vehicleId;
     }
 
     public void SetProofOfDelivery(string base64Image)
@@ -49,9 +47,41 @@ public class Order : EntityBase
         Status = OrderStatus.Delivered;
     }
 
-    public void UpdateStatus(OrderStatus status)
+    public void ConfirmDelivery()
     {
-        Status = status;
+        if (Status == OrderStatus.Delivered)
+            throw new ErrorOnValidationException(new List<string> { "Order is already delivered." });
+
+        if (Status == OrderStatus.Cancelled)
+            throw new ErrorOnValidationException(new List<string> { "Cancelled orders cannot be delivered." });
+
+        Status = OrderStatus.Delivered;
+    }
+
+    public void CancelOrder()
+    {
+        if (Status == OrderStatus.Delivered)
+            throw new ErrorOnValidationException(new List<string> { "Delivered orders cannot be cancelled." });
+
+        if (Status == OrderStatus.Cancelled)
+            throw new ErrorOnValidationException(new List<string> { "Order is already cancelled." });
+
+        Status = OrderStatus.Cancelled;
+    }
+
+    public void RescheduleDelivery(DeliveryWindow newDeliveryWindow)
+    {
+        if (newDeliveryWindow == null)
+            throw new ErrorOnValidationException(new List<string> { "Delivery window is required for rescheduling." });
+
+        if (Status == OrderStatus.Delivered)
+            throw new ErrorOnValidationException(new List<string> { "Delivered orders cannot be rescheduled." });
+
+        if (Status == OrderStatus.Cancelled)
+            throw new ErrorOnValidationException(new List<string> { "Cancelled orders cannot be rescheduled." });
+
+        DeliveryWindow = newDeliveryWindow;
+        Status = OrderStatus.Rescheduled;
     }
 
     public void Evaluate(int rating, string? feedback)
@@ -66,24 +96,24 @@ public class Order : EntityBase
         Feedback = feedback;
     }
 
-    private static void Validate(Customer customer, Address destinationAddress, DateTime deliveryWindowStart, DateTime deliveryWindowEnd, double weight, double volume)
+    private static void Validate(Guid customerId, Address destinationAddress, DeliveryWindow deliveryWindow, Weight weight, Volume volume)
     {
         var errors = new List<string>();
 
-        if (customer == null)
-            errors.Add("Customer cannot be null.");
+        if (customerId == Guid.Empty)
+            errors.Add("Customer id cannot be empty.");
 
         if (destinationAddress == null)
             errors.Add("Destination address cannot be null.");
 
-        if (deliveryWindowStart >= deliveryWindowEnd)
-            errors.Add("Delivery window start must be before delivery window end.");
+        if (deliveryWindow == null)
+            errors.Add("Delivery window cannot be null.");
 
-        if (weight <= 0)
-            errors.Add("Weight must be greater than zero.");
+        if (weight == null)
+            errors.Add("Weight is required.");
 
-        if (volume <= 0)
-            errors.Add("Volume must be greater than zero.");
+        if (volume == null)
+            errors.Add("Volume is required.");
 
         if (errors.Any())
             throw new ErrorOnValidationException(errors);

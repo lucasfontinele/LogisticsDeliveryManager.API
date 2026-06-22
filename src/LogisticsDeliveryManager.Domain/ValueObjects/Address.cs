@@ -1,22 +1,26 @@
 using LogisticsDeliveryManager.Domain.ValueObjects;
 using LogisticsDeliveryManager.Exception.ExceptionsBase;
+using System.Diagnostics.CodeAnalysis;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LogisticsDeliveryManager.Domain.Entities;
 
-public class Address
+[ComplexType]
+public sealed record Address
 {
-    public long Id { get; private set; }
-    public string Street { get; private set; }
-    public string City { get; private set; }
-    public string State { get; private set; }
-    public PostalCode PostalCode { get; private set; }
+    public required string Street { get; init; } = string.Empty;
+    public required string City { get; init; } = string.Empty;
+    public required string State { get; init; } = string.Empty;
+    public required PostalCode PostalCode { get; init; } = null!;
 
+    [SetsRequiredMembers]
     private Address() { }
 
+    [SetsRequiredMembers]
     public Address(string street, string city, string state, PostalCode postalCode)
     {
         Validate(street, city, state, postalCode);
-        
+
         Street = street;
         City = city;
         State = state;
@@ -29,7 +33,7 @@ public class Address
 
         if (string.IsNullOrEmpty(street))
             errors.Add("Street is required.");
-            
+
         if (string.IsNullOrEmpty(city))
             errors.Add("City is required.");
 
