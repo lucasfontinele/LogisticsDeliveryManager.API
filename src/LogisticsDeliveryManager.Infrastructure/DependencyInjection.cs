@@ -44,12 +44,27 @@ public static class DependencyInjection
         connection.Open();
         using var command = connection.CreateCommand();
         command.CommandText = @"
+            CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
             -- Employees table
             ALTER TABLE ""Employees"" ADD COLUMN IF NOT EXISTS ""LicenseTypes"" integer[] NOT NULL DEFAULT '{}';
             
             -- Batches table
             ALTER TABLE ""Batches"" ADD COLUMN IF NOT EXISTS ""VehicleWeightCapacity_Value"" double precision NOT NULL DEFAULT 0;
             ALTER TABLE ""Batches"" ADD COLUMN IF NOT EXISTS ""VehicleVolumeCapacity_Value"" double precision NOT NULL DEFAULT 0;
+            ALTER TABLE ""Batches"" DROP CONSTRAINT IF EXISTS ""FK_Batches_Drivers_DriverId"";
+            DO $$
+            BEGIN
+                IF NOT EXISTS (
+                    SELECT 1
+                    FROM pg_constraint
+                    WHERE conname = 'FK_Batches_Employees_DriverId'
+                ) THEN
+                    ALTER TABLE ""Batches""
+                    ADD CONSTRAINT ""FK_Batches_Employees_DriverId""
+                    FOREIGN KEY (""DriverId"") REFERENCES ""Employees"" (""Id"");
+                END IF;
+            END $$;
             
             -- Vehicles table
             ALTER TABLE ""Vehicles"" ADD COLUMN IF NOT EXISTS ""LicensePlate_Value"" text;
@@ -69,6 +84,43 @@ public static class DependencyInjection
             -- BatchOrders table
             ALTER TABLE ""BatchOrders"" ADD COLUMN IF NOT EXISTS ""Weight_Value"" double precision NOT NULL DEFAULT 0;
             ALTER TABLE ""BatchOrders"" ADD COLUMN IF NOT EXISTS ""Volume_Value"" double precision NOT NULL DEFAULT 0;
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_name = 'BatchOrders'
+                      AND column_name = 'Id'
+                      AND data_type = 'uuid'
+                ) THEN
+                    ALTER TABLE ""BatchOrders""
+                    ALTER COLUMN ""Id"" SET DEFAULT gen_random_uuid();
+                END IF;
+            END $$;
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_name = 'BatchOrders'
+                      AND column_name = 'CreatedAt'
+                ) THEN
+                    ALTER TABLE ""BatchOrders""
+                    ALTER COLUMN ""CreatedAt"" SET DEFAULT NOW();
+                END IF;
+            END $$;
+            DO $$
+            BEGIN
+                IF EXISTS (
+                    SELECT 1
+                    FROM information_schema.columns
+                    WHERE table_name = 'BatchOrders'
+                      AND column_name = 'IsActive'
+                ) THEN
+                    ALTER TABLE ""BatchOrders""
+                    ALTER COLUMN ""IsActive"" SET DEFAULT TRUE;
+                END IF;
+            END $$;
             
             -- Addresses table (owned by Customer)
             ALTER TABLE ""Addresses"" ADD COLUMN IF NOT EXISTS ""PostalCode_Code"" text NOT NULL DEFAULT '';

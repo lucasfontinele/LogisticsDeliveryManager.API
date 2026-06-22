@@ -54,8 +54,38 @@ internal class LogisticsDeliveryManagerDbContext(DbContextOptions<LogisticsDeliv
         {
             ownedNavBuilder.WithOwner().HasForeignKey("BatchId");
             ownedNavBuilder.HasKey("BatchId", nameof(Batch.BatchOrder.OrderId));
+            ownedNavBuilder.Property<Guid>("Id")
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("gen_random_uuid()");
+            ownedNavBuilder.Property<DateTime>("CreatedAt")
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("NOW()");
+            ownedNavBuilder.Property<bool>("IsActive")
+                .ValueGeneratedOnAdd()
+                .HasDefaultValue(true);
             ownedNavBuilder.Property(bo => bo.OrderId).IsRequired();
             ownedNavBuilder.ToTable("BatchOrders");
+        });
+
+        modelBuilder.Entity<Vehicle>().ComplexProperty(v => v.LicensePlate, licensePlateBuilder =>
+        {
+            licensePlateBuilder.Property(lp => lp.Value)
+                .HasColumnName("LicensePlate")
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Vehicle>().ComplexProperty(v => v.WeightCapacity, weightBuilder =>
+        {
+            weightBuilder.Property(w => w.Value)
+                .HasColumnName("WeightCapacity")
+                .IsRequired();
+        });
+
+        modelBuilder.Entity<Vehicle>().ComplexProperty(v => v.VolumeCapacity, volumeBuilder =>
+        {
+            volumeBuilder.Property(v => v.Value)
+                .HasColumnName("VolumeCapacity")
+                .IsRequired();
         });
 
         // Configure LicenseTypes as PostgreSQL array
