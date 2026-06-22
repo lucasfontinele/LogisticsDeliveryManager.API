@@ -10,4 +10,5 @@ public class CreateEmployeeResponseJson
     public string PhoneNumber { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public int RoleType { get; set; }
+    public IEnumerable<int> LicenseTypes { get; set; } = [];
 }

@@ -1,7 +1,8 @@
 using LogisticsDeliveryManager.Domain.Entities;
+using LogisticsDeliveryManager.Domain.Enums;
 using LogisticsDeliveryManager.Domain.Repositories.Employees;
 
-namespace LogisticsDeliveryManager.Application.UseCases.Drivers.GetAllDrivers;
+namespace LogisticsDeliveryManager.Application.UseCases.Employees.GetAllDrivers;
 
 public interface IGetAllDriversUseCase
 {
@@ -19,7 +20,7 @@ public class GetAllDriversUseCase : IGetAllDriversUseCase
 
     public async Task<IEnumerable<Employee>> Execute()
     {
-        var all = await _repository.GetAll();
-        return all.Where(e => e.RoleType == Domain.Enums.RoleType.Driver);
+        var allEmployees = await _repository.GetAll();
+        return allEmployees.Where(employee => employee.RoleType == RoleType.Driver);
     }
 }

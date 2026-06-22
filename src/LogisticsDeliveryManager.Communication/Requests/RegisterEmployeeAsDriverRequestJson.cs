@@ -1,7 +1,6 @@
 namespace LogisticsDeliveryManager.Communication.Requests;
 
-public class CreateDriverRequestJson
+public class RegisterEmployeeAsDriverRequestJson
 {
-    public Guid EmployeeId { get; set; }
     public IEnumerable<int> LicenseTypes { get; set; } = [];
 }
